@@ -3,678 +3,1760 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aezakmi — Премиальная автомойка</title>
+<title>RoofPro Calculator 3.0</title>
+<!-- Tailwind (Play CDN, no build step) -->
+<script src="https://cdn.tailwindcss.com"></script>
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0f0f0f;
-  --bg-card:rgba(255,255,255,.04);
-  --bg-card-hover:rgba(255,255,255,.07);
-  --border:rgba(255,255,255,.08);
-  --accent:#ff1e1e;
-  --accent-glow:0 0 30px rgba(255,30,30,.25);
-  --accent-glow-sm:0 0 12px rgba(255,30,30,.3);
-  --text:#f0f0f0;
-  --text-dim:rgba(255,255,255,.5);
-  --radius:16px;
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-}
-html{scroll-behavior:smooth;font-size:16px}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--font);
-  line-height:1.6;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-::selection{background:var(--accent);color:#fff}
-
-.container{max-width:1100px;margin:0 auto;padding:0 24px}
-
-/* ═══════ HERO ═══════ */
-.hero{
-  min-height:100vh;min-height:100dvh;
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;
-  position:relative;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,30,30,.07) 0%, transparent 70%),
-    linear-gradient(180deg, #0f0f0f 0%, #141414 50%, #0f0f0f 100%);
-  overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 20% 80%, rgba(255,30,30,.04) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255,30,30,.03) 0%, transparent 50%);
-  pointer-events:none;
-}
-.hero-content{position:relative;z-index:1;padding:40px 24px}
-.hero-badge{
-  display:inline-block;
-  font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--accent);
-  border:1px solid rgba(255,30,30,.3);
-  padding:6px 20px;border-radius:100px;
-  margin-bottom:32px;
-  animation:fadeUp .8s ease both;
-}
-.hero h1{
-  font-size:clamp(3.5rem,10vw,7rem);
-  font-weight:800;
-  letter-spacing:-.03em;
-  line-height:1;
-  margin-bottom:20px;
-  animation:fadeUp .8s ease .15s both;
-}
-.hero h1 span{
-  background:linear-gradient(135deg,#fff 40%,var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.hero p.subtitle{
-  font-size:clamp(1rem,2.5vw,1.35rem);
-  color:var(--text-dim);
-  max-width:520px;margin:0 auto 48px;
-  animation:fadeUp .8s ease .3s both;
-}
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:16px 36px;
-  border:none;border-radius:100px;
-  font-size:1rem;font-weight:600;
-  cursor:pointer;
-  transition:all .3s ease;
-  font-family:var(--font);
-  text-decoration:none;
-}
-.btn-primary{
-  background:var(--accent);color:#fff;
-  box-shadow:var(--accent-glow);
-  animation:fadeUp .8s ease .45s both;
-}
-.btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 50px rgba(255,30,30,.4);
-}
-.btn-secondary{
-  background:var(--bg-card);color:var(--text);
-  border:1px solid var(--border);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-}
-.btn-secondary:hover{
-  background:var(--bg-card-hover);
-  border-color:rgba(255,255,255,.15);
-}
-.scroll-hint{
-  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
-  width:24px;height:40px;border:2px solid rgba(255,255,255,.2);border-radius:12px;
-  display:flex;justify-content:center;
-  animation:fadeUp .8s ease .6s both;
-}
-.scroll-hint::after{
-  content:'';width:4px;height:8px;background:rgba(255,255,255,.4);border-radius:4px;
-  margin-top:6px;animation:scrollDot 1.8s ease infinite;
-}
-
-/* ═══════ SECTIONS ═══════ */
-section{padding:80px 0}
-@media(min-width:768px){section{padding:100px 0}}
-
-.section-label{
-  font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:12px;
-}
-.section-title{
-  font-size:clamp(1.75rem,4vw,2.5rem);
-  font-weight:700;letter-spacing:-.02em;
-  margin-bottom:16px;
-}
-.section-desc{color:var(--text-dim);max-width:540px;margin-bottom:48px}
-
-/* ═══════ SERVICE CARDS ═══════ */
-.services-grid{
-  display:grid;gap:20px;
-  grid-template-columns:1fr;
-}
-@media(min-width:640px){.services-grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:900px){.services-grid{grid-template-columns:repeat(3,1fr)}}
-
-.card{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:28px;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  transition:all .35s ease;
-  position:relative;
-  overflow:hidden;
-}
-.card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);
-}
-.card:hover{
-  border-color:rgba(255,30,30,.2);
-  background:var(--bg-card-hover);
-  transform:translateY(-4px);
-  box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 40px rgba(255,30,30,.05);
-}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-.card-title{font-size:1.1rem;font-weight:600}
-.card-price{
-  font-size:1.5rem;font-weight:700;
-  background:linear-gradient(135deg,#fff,var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-  margin-bottom:20px;
-}
-.info-btn{
-  width:32px;height:32px;border-radius:50%;
-  background:rgba(255,255,255,.06);border:1px solid var(--border);
-  color:var(--text-dim);font-size:.85rem;font-weight:600;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all .25s;flex-shrink:0;margin-left:12px;
-  font-family:var(--font);
-}
-.info-btn:hover,.info-btn.active{
-  background:rgba(255,30,30,.15);border-color:var(--accent);color:var(--accent);
-}
-.card-details{
-  max-height:0;overflow:hidden;
-  transition:max-height .4s ease, opacity .3s ease;
-  opacity:0;
-}
-.card-details.open{max-height:300px;opacity:1}
-.card-details-inner{
-  padding:16px 0 8px;
-  border-top:1px solid var(--border);
-  margin-top:16px;
-  font-size:.9rem;color:var(--text-dim);line-height:1.7;
-}
-.select-btn{
-  width:100%;padding:12px;
-  border-radius:12px;border:1px solid var(--border);
-  background:rgba(255,255,255,.03);
-  color:var(--text);font-size:.9rem;font-weight:500;
-  cursor:pointer;transition:all .25s;
-  font-family:var(--font);
-}
-.select-btn:hover{border-color:rgba(255,30,30,.3);background:rgba(255,30,30,.06)}
-.select-btn.selected{
-  border-color:var(--accent);
-  background:rgba(255,30,30,.1);
-  color:#fff;
-  box-shadow:var(--accent-glow-sm);
-}
-
-/* ═══════ PROTECTION SECTION ═══════ */
-.protection-section{
-  background:linear-gradient(180deg,transparent,rgba(255,30,30,.02),transparent);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-}
-.protection-section.disabled{opacity:.35;pointer-events:none;filter:grayscale(.5)}
-.protection-notice{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 16px;border-radius:100px;
-  background:rgba(255,30,30,.08);border:1px solid rgba(255,30,30,.15);
-  font-size:.8rem;color:var(--accent);margin-bottom:32px;
-}
-.protection-grid{
-  display:grid;gap:16px;
-  grid-template-columns:1fr;
-}
-@media(min-width:640px){.protection-grid{grid-template-columns:repeat(2,1fr)}}
-
-.prot-card{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:24px;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  transition:all .3s;cursor:pointer;
-}
-.prot-card:hover{border-color:rgba(255,255,255,.12);background:var(--bg-card-hover)}
-.prot-card.checked{border-color:var(--accent);background:rgba(255,30,30,.06)}
-.prot-top{display:flex;align-items:center;gap:12px}
-.checkbox-custom{
-  width:22px;height:22px;border-radius:6px;
-  border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .25s;flex-shrink:0;
-}
-.prot-card.checked .checkbox-custom{
-  border-color:var(--accent);background:var(--accent);
-}
-.checkbox-custom svg{opacity:0;transition:opacity .2s}
-.prot-card.checked .checkbox-custom svg{opacity:1}
-.prot-name{font-weight:600;flex:1}
-.prot-price{font-weight:600;color:var(--accent);white-space:nowrap}
-.prot-details{
-  max-height:0;overflow:hidden;opacity:0;
-  transition:max-height .4s ease,opacity .3s ease;
-}
-.prot-details.open{max-height:200px;opacity:1}
-.prot-details-inner{
-  padding-top:14px;margin-top:14px;
-  border-top:1px solid var(--border);
-  font-size:.85rem;color:var(--text-dim);line-height:1.7;
-}
-
-/* ═══════ CALCULATOR ═══════ */
-.calc-section{position:relative}
-.calc-bar{
-  position:sticky;bottom:0;left:0;right:0;
-  background:rgba(15,15,15,.85);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--border);
-  padding:20px 24px;
-  z-index:100;
-  display:flex;align-items:center;justify-content:center;gap:24px;
-  flex-wrap:wrap;
-}
-.calc-total{font-size:1.4rem;font-weight:700}
-.calc-total span{
-  background:linear-gradient(135deg,#fff,var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.calc-book{
-  padding:14px 32px;border-radius:100px;
-  background:var(--accent);color:#fff;border:none;
-  font-size:.95rem;font-weight:600;cursor:pointer;
-  box-shadow:var(--accent-glow);
-  transition:all .3s;font-family:var(--font);
-}
-.calc-book:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(255,30,30,.4)}
-.calc-book:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
-
-/* ═══════ MODAL ═══════ */
-.modal-overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  z-index:1000;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s;
-  padding:24px;
-}
-.modal-overlay.visible{opacity:1;pointer-events:auto}
-.modal{
-  background:rgba(25,25,25,.95);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:48px 40px;
-  max-width:440px;width:100%;
-  text-align:center;
-  transform:scale(.92);transition:transform .3s;
-}
-.modal-overlay.visible .modal{transform:scale(1)}
-.modal h3{font-size:1.5rem;font-weight:700;margin-bottom:12px}
-.modal p{color:var(--text-dim);margin-bottom:28px;font-size:.95rem}
-.modal-close{
-  padding:12px 28px;border-radius:100px;
-  background:var(--bg-card);border:1px solid var(--border);
-  color:var(--text);font-size:.9rem;cursor:pointer;
-  transition:all .25s;font-family:var(--font);
-}
-.modal-close:hover{border-color:rgba(255,255,255,.2);background:var(--bg-card-hover)}
-
-/* ═══════ FOOTER ═══════ */
-footer{
-  border-top:1px solid var(--border);
-  padding:60px 0;text-align:center;
-}
-.footer-brand{font-size:1.5rem;font-weight:700;margin-bottom:20px}
-.footer-info{color:var(--text-dim);font-size:.9rem;line-height:2}
-.footer-info a{color:var(--text-dim);text-decoration:none;transition:color .2s}
-.footer-info a:hover{color:var(--accent)}
-.back-top{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:24px;padding:10px 24px;
-  border-radius:100px;border:1px solid var(--border);
-  background:var(--bg-card);color:var(--text-dim);
-  font-size:.85rem;cursor:pointer;transition:all .25s;
-  font-family:var(--font);text-decoration:none;
-}
-.back-top:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
-
-/* ═══════ ANIMATIONS ═══════ */
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(24px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes scrollDot{
-  0%,100%{transform:translateY(0);opacity:.4}
-  50%{transform:translateY(12px);opacity:1}
-}
-.reveal{opacity:0;transform:translateY(30px);transition:all .6s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-/* ═══════ MOBILE ═══════ */
-@media(max-width:640px){
-  .calc-bar{flex-direction:column;gap:14px;padding:16px}
-  .modal{padding:36px 24px}
-}
+  html, body, #root { height: 100%; margin: 0; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
+  /* Tiny boot screen so the user sees something while CDN scripts load */
+  .boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+          background: #f8fafc; color: #475569; font-weight: 600; font-size: 14px; z-index: -1; }
 </style>
+<!-- Map bare module specifiers to ESM CDN URLs -->
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.383.0?deps=react@18.3.1"
+  }
+}
+</script>
+<!-- Babel Standalone: compiles JSX in the browser. Slow on first load but zero build setup. -->
+<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
 </head>
 <body>
+<div id="root"></div>
+<div class="boot">Загрузка RoofPro Calculator…</div>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-content">
-    <div class="hero-badge">Детейлинг &amp; Мойка</div>
-    <h1><span>Aezakmi</span></h1>
-    <p class="subtitle">Технологичный подход. Чистота без риска для ЛКП.</p>
-    <a href="#services" class="btn btn-primary">Рассчитать стоимость</a>
-  </div>
-  <div class="scroll-hint"></div>
-</section>
+<!--
+  data-type="module" + data-presets="react" tells Babel Standalone to:
+   - parse this script as an ES module (so `import` works)
+   - transpile JSX using the classic React runtime
+-->
+<script type="text/babel" data-type="module" data-presets="react">
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { 
+  Calculator, Building2, Ruler, MousePointer2, 
+  Plus, Trash2, LayoutGrid, FileText, ChevronRight, ChevronLeft,
+  Layers, Settings, ZoomIn, ZoomOut, Maximize, Minimize,
+  Menu, X, Sparkles, MessageSquare, Send, Loader2,
+  Camera, CheckCircle, AlertTriangle, ChevronDown, ChevronUp,
+  User, MapPin, Calendar, FileEdit, Trash, Wand2,
+  Grid3X3, ArrowRight, ArrowUp, ArrowDown, Bot, Printer, MousePointerClick
+} from 'lucide-react';
+import * as ReactDOM from 'react-dom/client';
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Услуги</div>
-      <div class="section-title">Профессиональная безопасная мойка</div>
-      <p class="section-desc">Каждый этап выполняется вручную с использованием премиальной химии и безопасных методов.</p>
-    </div>
-    <div class="services-grid">
+/**
+ * ==========================================================================================
+ * 1. GEMINI API INTEGRATION
+ * ==========================================================================================
+ */
+const apiKey = ""; 
 
-      <!-- Двухфазная -->
-      <div class="card reveal" data-service="two" data-price="1500">
-        <div class="card-header">
-          <div class="card-title">Двухфазная мойка</div>
-          <button class="info-btn" onclick="toggleInfo(this)">!</button>
-        </div>
-        <div class="card-price">1 500 ₽</div>
-        <div class="card-details">
-          <div class="card-details-inner">
-            Щелочная фаза — бесконтактное удаление основных загрязнений. Ручная мойка pH-нейтральным шампунем с микрофиброй. Контактная безопасная сушка с использованием деминерализованной воды.
-          </div>
-        </div>
-        <button class="select-btn" onclick="selectWash(this,'two',1500)">Выбрать</button>
-      </div>
-
-      <!-- Трёхфазная -->
-      <div class="card reveal" data-service="three" data-price="2000">
-        <div class="card-header">
-          <div class="card-title">Трёхфазная мойка</div>
-          <button class="info-btn" onclick="toggleInfo(this)">!</button>
-        </div>
-        <div class="card-price">2 000 ₽</div>
-        <div class="card-details">
-          <div class="card-details-inner">
-            Первая фаза — щелочная обработка для растворения органики. Вторая — ручная мойка с нейтральным pH-составом. Третья — нанесение защитного состава, выбирается отдельно в разделе ниже.
-          </div>
-        </div>
-        <button class="select-btn" onclick="selectWash(this,'three',2000)">Выбрать</button>
-      </div>
-
-      <!-- Мойка двигателя -->
-      <div class="card reveal" data-service="engine" data-price="2500">
-        <div class="card-header">
-          <div class="card-title">Мойка двигателя</div>
-          <button class="info-btn" onclick="toggleInfo(this)">!</button>
-        </div>
-        <div class="card-price">2 500 ₽</div>
-        <div class="card-details">
-          <div class="card-details-inner">
-            Защита электрики и блоков. Нанесение диэлектрического состава. Деликатная мойка паром и спецхимией. Продувка и консервация.
-          </div>
-        </div>
-        <button class="select-btn" onclick="toggleExtra(this,'engine',2500)">Выбрать</button>
-      </div>
-
-      <!-- Мойка радиатора -->
-      <div class="card reveal" data-service="radiator" data-price="3000">
-        <div class="card-header">
-          <div class="card-title">Мойка радиатора</div>
-          <button class="info-btn" onclick="toggleInfo(this)">!</button>
-        </div>
-        <div class="card-price">3 000 ₽</div>
-        <div class="card-details">
-          <div class="card-details-inner">
-            Снятие защитных кожухов при необходимости. Продувка сот от пыли, пуха, насекомых. Бережная промывка радиатора без повреждения ламелей. Проверка после мойки.
-          </div>
-        </div>
-        <button class="select-btn" onclick="toggleExtra(this,'radiator',3000)">Выбрать</button>
-      </div>
-
-      <!-- Химчистка -->
-      <div class="card reveal" data-service="interior" data-price="8000">
-        <div class="card-header">
-          <div class="card-title">Химчистка салона</div>
-          <button class="info-btn" onclick="toggleInfo(this)">!</button>
-        </div>
-        <div class="card-price">8 000 ₽</div>
-        <div class="card-details">
-          <div class="card-details-inner">
-            Полная химчистка потолка, сидений, ковролина, пластика. Обработка кожи кондиционером. Озонирование салона. Время выполнения — от 6 часов.
-          </div>
-        </div>
-        <button class="select-btn" onclick="toggleExtra(this,'interior',8000)">Выбрать</button>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- PROTECTION -->
-<section class="protection-section disabled" id="protection">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Третья фаза</div>
-      <div class="section-title">Защитные составы</div>
-      <div class="protection-notice">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        Доступно при выборе трёхфазной мойки
-      </div>
-    </div>
-    <div class="protection-grid">
-
-      <div class="prot-card reveal" data-prot="quartz" data-price="800" onclick="toggleProt(this)">
-        <div class="prot-top">
-          <div class="checkbox-custom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="prot-name">Кварцевый гидрофоб</div>
-          <div class="prot-price">800 ₽</div>
-          <button class="info-btn" onclick="event.stopPropagation();toggleProtInfo(this)">!</button>
-        </div>
-        <div class="prot-details">
-          <div class="prot-details-inner">Создаёт невидимый гидрофобный слой на основе SiO₂. Вода собирается в капли и скатывается с поверхности. Эффект: 3–5 недель.</div>
-        </div>
-      </div>
-
-      <div class="prot-card reveal" data-prot="drywax" data-price="500" onclick="toggleProt(this)">
-        <div class="prot-top">
-          <div class="checkbox-custom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="prot-name">Сухой воск</div>
-          <div class="prot-price">500 ₽</div>
-          <button class="info-btn" onclick="event.stopPropagation();toggleProtInfo(this)">!</button>
-        </div>
-        <div class="prot-details">
-          <div class="prot-details-inner">Наносится на влажный кузов и формирует глянцевый защитный слой. Придаёт глубину цвета и лёгкий блеск. Эффект: 1–2 недели.</div>
-        </div>
-      </div>
-
-      <div class="prot-card reveal" data-prot="hardwax" data-price="1200" onclick="toggleProt(this)">
-        <div class="prot-top">
-          <div class="checkbox-custom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="prot-name">Твёрдый воск</div>
-          <div class="prot-price">1 200 ₽</div>
-          <button class="info-btn" onclick="event.stopPropagation();toggleProtInfo(this)">!</button>
-        </div>
-        <div class="prot-details">
-          <div class="prot-details-inner">Ручное нанесение твёрдого воска карнауба. Максимальный глянец и защита. Эффект: 4–8 недель.</div>
-        </div>
-      </div>
-
-      <div class="prot-card reveal" data-prot="antirain" data-price="700" onclick="toggleProt(this)">
-        <div class="prot-top">
-          <div class="checkbox-custom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="prot-name">Антидождь</div>
-          <div class="prot-price">700 ₽</div>
-          <button class="info-btn" onclick="event.stopPropagation();toggleProtInfo(this)">!</button>
-        </div>
-        <div class="prot-details">
-          <div class="prot-details-inner">Гидрофобная обработка лобового стекла. Капли воды мгновенно скатываются на скорости от 60 км/ч. Эффект: 4–6 недель.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CALC BAR -->
-<div class="calc-bar" id="calcBar">
-  <div class="calc-total">Итого: <span id="totalPrice">0 ₽</span></div>
-  <button class="calc-book" id="bookBtn" disabled onclick="openModal()">Записаться</button>
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <h3>Спасибо за выбор</h3>
-    <p>Мы свяжемся с вами для подтверждения записи в Aezakmi.</p>
-    <button class="modal-close" onclick="closeModal()">Закрыть</button>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-brand reveal">Aezakmi</div>
-    <div class="footer-info reveal">
-      <a href="tel:+79999999999">+7 999 999 99 99</a><br>
-      Ежедневно 09:00–21:00
-    </div>
-    <a href="#top" class="back-top reveal">↑ Наверх</a>
-  </div>
-</footer>
-
-<script>
-(function(){
-
-  var state = { wash: null, washPrice: 0, extras: {}, prots: {} };
-
-  function recalc(){
-    var total = state.washPrice;
-    for(var k in state.extras) total += state.extras[k];
-    if(state.wash === 'three'){
-      for(var k in state.prots) total += state.prots[k];
-    }
-    document.getElementById('totalPrice').textContent = total.toLocaleString('ru-RU') + ' ₽';
-    document.getElementById('bookBtn').disabled = total === 0;
+const callGemini = async (prompt, systemPrompt = "") => {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+  
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+  };
+  
+  if (systemPrompt) {
+    payload.systemInstruction = { parts: [{ text: systemPrompt }] };
   }
 
-  window.selectWash = function(btn, type, price){
-    document.querySelectorAll('.card[data-service="two"] .select-btn, .card[data-service="three"] .select-btn').forEach(function(b){
-      b.classList.remove('selected');
-      b.textContent = 'Выбрать';
-    });
-    if(state.wash === type){
-      state.wash = null; state.washPrice = 0;
-      btn.classList.remove('selected');
-      btn.textContent = 'Выбрать';
-    } else {
-      state.wash = type; state.washPrice = price;
-      btn.classList.add('selected');
-      btn.textContent = 'Выбрано ✓';
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+      const data = await res.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "Нет ответа от ИИ.";
+    } catch (err) {
+      if (attempt === 4) throw err;
+      await new Promise(r => setTimeout(r, Math.pow(2, attempt) * 1000));
     }
-    var pSec = document.getElementById('protection');
-    if(state.wash === 'three'){
-      pSec.classList.remove('disabled');
-    } else {
-      pSec.classList.add('disabled');
-      state.prots = {};
-      document.querySelectorAll('.prot-card').forEach(function(c){c.classList.remove('checked')});
-    }
-    recalc();
-  };
+  }
+};
 
-  window.toggleExtra = function(btn, id, price){
-    if(btn.classList.contains('selected')){
-      btn.classList.remove('selected');
-      btn.textContent = 'Выбрать';
-      delete state.extras[id];
-    } else {
-      btn.classList.add('selected');
-      btn.textContent = 'Выбрано ✓';
-      state.extras[id] = price;
-    }
-    recalc();
-  };
+/**
+ * ==========================================================================================
+ * 2. MODULE: CONSTANTS & CONFIGURATION
+ * ==========================================================================================
+ */
 
-  window.toggleProt = function(card){
-    var id = card.dataset.prot;
-    var price = parseInt(card.dataset.price);
-    if(card.classList.contains('checked')){
-      card.classList.remove('checked');
-      delete state.prots[id];
-    } else {
-      card.classList.add('checked');
-      state.prots[id] = price;
-    }
-    recalc();
-  };
+const VIEWBOX_CONFIG = {
+  baseScale: 40 // Pixels per meter
+};
 
-  window.toggleInfo = function(btn){
-    btn.classList.toggle('active');
-    var details = btn.closest('.card').querySelector('.card-details');
-    details.classList.toggle('open');
-  };
+const VIRTUAL_CANVAS_METERS = { width: 40, height: 30 }; 
 
-  window.toggleProtInfo = function(btn){
-    btn.classList.toggle('active');
-    var details = btn.closest('.prot-card').querySelector('.prot-details');
-    details.classList.toggle('open');
-  };
+const MATERIAL_TYPES = {
+  metal: { 
+    id: 'metal', 
+    name: 'Металлочерепица', 
+    // icon is a Component
+    icon: (props) => <div {...props} className={`flex items-center justify-center font-bold bg-indigo-100 text-indigo-600 rounded ${props.className || ''}`}>M</div>, 
+    color: '#6366f1' 
+  },
+  profnastil: { 
+    id: 'profnastil', 
+    name: 'Профнастил', 
+    // icon is a Component
+    icon: (props) => <div {...props} className={`flex items-center justify-center font-bold bg-slate-100 text-slate-600 rounded ${props.className || ''}`}>P</div>, 
+    color: '#64748b' 
+  }
+};
 
-  window.openModal = function(){
-    var lines = ['Здравствуйте! Хочу записаться в Aezakmi.','','Выбранные услуги:'];
-    var washNames = {two:'Двухфазная мойка — 1 500 ₽',three:'Трёхфазная мойка — 2 000 ₽'};
-    if(state.wash) lines.push('• ' + washNames[state.wash]);
-    var extraNames = {engine:'Мойка двигателя — 2 500 ₽',radiator:'Мойка радиатора — 3 000 ₽',interior:'Химчистка салона — 8 000 ₽'};
-    for(var k in state.extras) lines.push('• ' + extraNames[k]);
-    if(state.wash === 'three'){
-      var protNames = {quartz:'Кварцевый гидрофоб — 800 ₽',drywax:'Сухой воск — 500 ₽',hardwax:'Твёрдый воск — 1 200 ₽',antirain:'Антидождь — 700 ₽'};
-      for(var k in state.prots) lines.push('• ' + protNames[k]);
-    }
-    var total = state.washPrice;
-    for(var k in state.extras) total += state.extras[k];
-    if(state.wash === 'three') for(var k in state.prots) total += state.prots[k];
-    lines.push('','Итого: ' + total.toLocaleString('ru-RU') + ' ₽');
-    var text = encodeURIComponent(lines.join('\n'));
-    window.open('https://t.me/washidze?text=' + text, '_blank');
-  };
+const PROFILES = {
+  metal: [
+    { id: 'alicante_new', name: 'АЛИКАНТЕ №1 Новый', effective: 1.10, total: 1.18, waveHeight: 35, deadZones: [] },
+    { id: 'monterrey', name: 'МОНТЕРРЕЙ', effective: 1.10, total: 1.18, waveHeight: 25, deadZones: [[0.40, 0.45], [3.55, 3.65], [4.25, 4.35]] }, 
+    { id: 'supermonterrey', name: 'СУПЕРМОНТЕРРЕЙ', effective: 1.10, total: 1.18, waveHeight: 25, deadZones: [[0.40, 0.45], [3.55, 3.65]] },
+    { id: 'kredo', name: 'КРЕДО', effective: 1.125, total: 1.19, waveHeight: 28, deadZones: [] }, 
+    { id: 'palermo', name: 'ПАЛЕРМО', effective: 1.11, total: 1.18, waveHeight: 32, deadZones: [] }, 
+    { id: 'kaskad', name: 'КАСКАД', effective: 1.05, total: 1.16, waveHeight: 25, deadZones: [] } 
+  ],
+  profnastil: [
+    { id: 'c21', name: 'С-21 (Кровельный)', effective: 1.05, total: 1.10, waveHeight: 21 }, 
+    { id: 'c8', name: 'С-8 (Фасадный)', effective: 1.15, total: 1.20, waveHeight: 8 } 
+  ]
+};
 
-  window.closeModal = function(){
-    document.getElementById('modal').classList.remove('visible');
-    document.body.style.overflow = '';
-  };
+// ROOF TEMPLATES: Icons are Functional Components
+const ROOF_TEMPLATES = [
+    { id: 'rect', name: 'Прямоуг.', type: 'rect', w1: 10, w2: 10, h: 6, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="4" y="6" width="16" height="12" rx="1" /></svg> },
+    { id: 'tri', name: 'Треугольник', type: 'triangle', w1: 12, w2: 0, h: 6, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="12,4 4,20 20,20" /></svg> },
+    { id: 'tri_l', name: 'Треуг. (лев)', type: 'triangle', w1: 10, w2: 0, h: 6, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="4,20 20,20 4,6" /></svg> },
+    { id: 'tri_r', name: 'Треуг. (прав)', type: 'triangle', w1: 10, w2: 0, h: 6, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="4,4 4,20 20,20" /></svg> },
+    { id: 'trap', name: 'Трапеция', type: 'trapezoid', w1: 12, w2: 6, h: 6, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="4,18 20,18 16,6 8,6" /></svg> },
+    { id: 'trap_l', name: 'Трап. (лев)', type: 'trapezoid', w1: 10, w2: 10, h: 8, offsetLeft: 0, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M4 20 L20 20 L20 4 L4 8 Z" /></svg> },
+    { id: 'trap_r', name: 'Трап. (прав)', type: 'trapezoid', w1: 10, w2: 10, h: 8, offsetLeft: 0, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M4 20 L20 20 L20 8 L4 4 Z" /></svg> },
+    { id: 'rect_cut_br', name: 'Вырез (Низ-Прав)', type: 'poly', w1: 10, w2: 4, h: 8, h2: 4, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="4,4 20,4 20,12 12,12 12,20 4,20" /></svg> }, 
+    { id: 'l_shape_tl', name: 'Г-обр. (Верх-Лев)', type: 'poly', w1: 10, w2: 4, h: 8, h2: 4, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="4,4 12,4 12,12 20,12 20,20 4,20" transform="scale(1,-1) translate(0,-24)"/></svg> },
+    { id: 't_shape', name: 'Т-образная', type: 'poly', w1: 10, w2: 4, h: 8, h2: 4, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="8,20 16,20 16,12 22,12 22,4 2,4 2,12 8,12" /></svg> },
+    { id: 'house', name: 'Домик', type: 'poly', w1: 10, w2: 0, h: 8, h2: 5, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="4,20 20,20 20,10 12,4 4,10" /></svg> },
+    { id: 'rhomb', name: 'Ромб', type: 'trapezoid', w1: 10, w2: 10, h: 8, offsetLeft: 4, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="12,20 20,13 12,6 4,13" /></svg> },
+    { id: 'paral', name: 'Параллелограмм', type: 'trapezoid', w1: 10, w2: 10, h: 6, icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="4,20 16,20 20,6 8,6" /></svg> },
+    { 
+        id: 'draw', 
+        name: 'Свой (Рисовать)', 
+        type: 'custom', w1: 0, w2: 0, h: 0, 
+        icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><g transform="translate(2,2)"><path d="M15.5 3L21 8.5L11.5 18H6V12.5L15.5 3Z"/><path d="M12.5 6L18 11.5"/><path d="M2 22H22"/></g></svg> 
+    },
+];
 
-  document.getElementById('modal').addEventListener('click', function(e){
-    if(e.target === this) closeModal();
-  });
+/**
+ * ==========================================================================================
+ * 3. MODULE: MATH UTILS
+ * ==========================================================================================
+ */
+const MathUtils = {
+  getYOnSegment: (x, p1, p2) => {
+      const minX = Math.min(p1.x, p2.x);
+      const maxX = Math.max(p1.x, p2.x);
+      if (x < minX || x > maxX) return null; 
+      if (Math.abs(p1.x - p2.x) < 0.001) return null; 
+      const t = (x - p1.x) / (p2.x - p1.x);
+      return p1.y + t * (p2.y - p1.y);
+  },
 
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
+  getRangeAt: (x, slope) => {
+      if (!slope || !slope.points || slope.points.length < 3) return null;
+      const intersections = [];
+      const pts = slope.points;
+      for (let i = 0; i < pts.length; i++) {
+          const p1 = pts[i];
+          const p2 = pts[(i + 1) % pts.length]; 
+          const y = MathUtils.getYOnSegment(x, p1, p2);
+          if (y !== null && !isNaN(y)) intersections.push(y);
       }
-    });
-  }, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+      if (intersections.length < 2) return null;
+      intersections.sort((a, b) => a - b);
+      return { minY: intersections[0], maxY: intersections[intersections.length - 1] };
+  },
 
-  document.querySelectorAll('.reveal').forEach(function(el){
-    observer.observe(el);
+  generateTemplatePoints: (templateId, w1, w2, h, h2, offsetLeft = 0) => {
+      switch (templateId) {
+          case 'rect': return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h}, {x:0, y:h}];
+          case 'tri': return [{x:0, y:0}, {x:w1, y:0}, {x:w1/2, y:h}];
+          case 'tri_l': return [{x:0, y:0}, {x:w1, y:0}, {x:0, y:h}];
+          case 'tri_r': return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h}];
+          case 'trap': 
+             const off = (w1 - w2) / 2;
+             return [{x:0, y:0}, {x:w1, y:0}, {x:w1-off, y:h}, {x:off, y:h}];
+          case 'trap_l': return [{x:0, y:0}, {x:w1, y:0}, {x:w2, y:h}, {x:0, y:h}]; 
+          case 'trap_r': return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h}, {x:w1-w2, y:h}]; 
+          case 'paral_l': return [{x:0, y:0}, {x:w1, y:0}, {x:w1+3, y:h}, {x:3, y:h}]; 
+          case 'paral_r': return [{x:3, y:0}, {x:w1+3, y:0}, {x:w1, y:h}, {x:0, y:h}];
+          case 'rhomb': return [{x:w1/2, y:0}, {x:w1, y:h/2}, {x:w1/2, y:h}, {x:0, y:h/2}];
+          case 'rect_cut_br': return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h-h2}, {x:w1-w2, y:h-h2}, {x:w1-w2, y:h}, {x:0, y:h}];
+          case 'l_shape_tl': return [{x:0, y:0}, {x:w2, y:0}, {x:w2, y:h-h2}, {x:w1, y:h-h2}, {x:w1, y:h}, {x:0, y:h}];
+          case 't_shape': 
+              const stemX = (w1 - w2)/2;
+              return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h2}, {x:stemX+w2, y:h2}, {x:stemX+w2, y:h}, {x:stemX, y:h}, {x:stemX, y:h2}, {x:0, y:h2}];
+          case 'house': return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h2}, {x:w1/2, y:h}, {x:0, y:h2}];
+          case 'cut_tl': return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h}, {x:w2, y:h}, {x:0, y:h-h2}];
+          case 'cut_tr': return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h-h2}, {x:w1-w2, y:h}, {x:0, y:h}];
+          default: return [{x:0, y:0}, {x:w1, y:0}, {x:w1, y:h}, {x:0, y:h}];
+      }
+  },
+
+  checkAndFixDeadZone: (len, deadZones) => {
+    let fixed = false;
+    let val = len;
+    if (!deadZones || deadZones.length === 0) return { val, fixed };
+    
+    for (const [start, end] of deadZones) {
+        if (val >= start && val <= end) {
+            val = end + 0.05; 
+            fixed = true;
+            break;
+        }
+    }
+    return { val, fixed };
+  },
+
+  calculateSlope: (slope, material, globalSettings) => {
+    if (!slope || !slope.points || slope.points.length < 3 || !material || !globalSettings) return [];
+    
+    const xs = slope.points.map(p => p.x);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const width = maxX - minX;
+
+    const effW = material.effectiveWidth || material.effective;
+    if (!effW || isNaN(effW)) return [];
+
+    const waveStep = globalSettings.waveLength || 0.35; 
+    const maxLen = globalSettings.lMax || 8.0;  
+    const splitOverlap = globalSettings.lockOverlap || 0.15;
+    
+    const deadZones = globalSettings.customDeadZones && globalSettings.customDeadZones.length > 0 
+        ? globalSettings.customDeadZones 
+        : (material.deadZones || []);
+    
+    const useDeadZones = globalSettings.useDeadZones;
+
+    const { sheetOverrides = {}, layout = { mode: 'start', offset: 0 } } = slope;
+
+    const totalCols = Math.ceil(width / effW);
+    if (isNaN(totalCols) || totalCols < 0) return [];
+    
+    let startX = minX; 
+    if (layout.mode === 'center') startX = minX + (width - (totalCols * effW)) / 2;
+    else if (layout.mode === 'end') startX = minX + width - (totalCols * effW);
+    
+    startX += (layout.offset || 0) / 100;
+    const overhang = slope.overhang || 0;
+
+    let globalMaxLen = 0;
+    const columnsData = [];
+
+    for (let i = -2; i <= totalCols + 2; i++) { 
+      const xStart = startX + i * effW;
+      const xEnd = xStart + effW;
+      const xMid = (xStart + xEnd) / 2;
+
+      if (xEnd < minX || xStart > maxX) continue;
+
+      const r1 = MathUtils.getRangeAt(xStart + 0.01, slope);
+      const r2 = MathUtils.getRangeAt(xMid, slope);
+      const r3 = MathUtils.getRangeAt(xEnd - 0.01, slope);
+      
+      if (!r1 && !r2 && !r3) continue;
+
+      const valids = [r1, r2, r3].filter(r => r !== null && !isNaN(r.minY) && !isNaN(r.maxY));
+      if (valids.length === 0) continue;
+
+      const geomMinY = Math.min(...valids.map(r => r.minY));
+      const geomMaxY = Math.max(...valids.map(r => r.maxY));
+      
+      const reqLen = (geomMaxY - geomMinY) + overhang;
+      const yBase = geomMinY - overhang;
+
+      if (reqLen < 0.1 || isNaN(reqLen)) continue;
+
+      let calculatedLen = reqLen;
+      if (material.category === 'metal') {
+          const rawLen = reqLen + 0.05; 
+          const steps = Math.ceil(rawLen / waveStep);
+          calculatedLen = steps * waveStep;
+      }
+      
+      globalMaxLen = Math.max(globalMaxLen, calculatedLen);
+
+      columnsData.push({
+          i,
+          xStart,
+          yBase,
+          calculatedLen,
+          reqLen
+      });
+    }
+
+    const sheets = [];
+
+    columnsData.forEach(col => {
+        const { i, xStart, yBase, calculatedLen, reqLen } = col;
+        const sheetsInColumn = [];
+
+        if (calculatedLen > maxLen) {
+            const totalNeeded = calculatedLen + splitOverlap;
+            let bottomLenRaw = totalNeeded / 2;
+            let bottomLen = bottomLenRaw;
+            if (material.category === 'metal') {
+                bottomLen = Math.ceil(bottomLenRaw / waveStep) * waveStep;
+            }
+
+            let bottomIsFixed = false;
+            if (useDeadZones) {
+                const check = MathUtils.checkAndFixDeadZone(bottomLen, deadZones);
+                if (check.fixed) {
+                    bottomLen = check.val;
+                    bottomIsFixed = true;
+                    if (material.category === 'metal') {
+                        bottomLen = Math.ceil(bottomLen / waveStep) * waveStep;
+                    }
+                }
+            }
+
+            let topLenRaw = totalNeeded - bottomLen;
+            let topLen = topLenRaw;
+             if (material.category === 'metal') {
+                topLen = Math.ceil(topLenRaw / waveStep) * waveStep;
+            }
+
+            let topIsFixed = false;
+            if (useDeadZones) {
+                 const checkTop = MathUtils.checkAndFixDeadZone(topLen, deadZones);
+                 if (checkTop.fixed) {
+                     topLen = checkTop.val;
+                     topIsFixed = true;
+                     if (material.category === 'metal') {
+                         topLen = Math.ceil(topLen / waveStep) * waveStep;
+                     }
+                 }
+            }
+            sheetsInColumn.push({ len: bottomLen, offset: 0, warn: bottomIsFixed });
+            sheetsInColumn.push({ len: topLen, offset: bottomLen - splitOverlap, warn: topIsFixed });
+        } else {
+            let finalLen = calculatedLen;
+            let isWarning = false;
+            if (useDeadZones) {
+                const check = MathUtils.checkAndFixDeadZone(finalLen, deadZones);
+                if (check.fixed) {
+                     finalLen = check.val;
+                     isWarning = true;
+                     if (material.category === 'metal') {
+                        finalLen = Math.ceil(finalLen / waveStep) * waveStep;
+                    }
+                }
+            }
+            sheetsInColumn.push({ len: finalLen, offset: 0, warn: isWarning });
+        }
+
+        sheetsInColumn.forEach((part, subIdx) => {
+            const sheetId = `${slope.id}-${i}-${subIdx}`;
+            const override = sheetOverrides[sheetId] || {};
+
+            if (override.deleted) return;
+
+            const finalLen = override.length !== undefined ? override.length : part.len;
+            const finalOffset = override.offset !== undefined ? override.offset : part.offset;
+            const isManual = override.length !== undefined || override.offset !== undefined;
+            const isNarrow = finalLen < 0.2; 
+
+            if (isNaN(finalLen)) return;
+
+            sheets.push({
+              id: sheetId,
+              index: i, subIndex: subIdx,
+              x: xStart, yBase: yBase, 
+              len: finalLen, bottomOffset: finalOffset, 
+              realLen: reqLen, 
+              isCut: (!isManual) && (sheetsInColumn.length > 1) && (subIdx === sheetsInColumn.length - 1), 
+              isDeadZoneFix: part.warn && !isManual,
+              isNarrow: isNarrow, isManual: isManual
+            });
+        });
+    });
+
+    return sheets;
+  },
+
+  getSides: (slope) => {
+      const { w1, w2, h, offsetLeft } = slope;
+      if (!h) return { sideL: 0, sideR: 0 };
+      const sideL = Math.sqrt(Math.pow(h, 2) + Math.pow(offsetLeft, 2));
+      const rightBase = Math.abs(w1 - w2 - offsetLeft);
+      const sideR = Math.sqrt(Math.pow(h, 2) + Math.pow(rightBase, 2));
+      return { sideL, sideR };
+  }
+};
+
+/**
+ * ==========================================================================================
+ * 4. SHARED UI COMPONENTS
+ * ==========================================================================================
+ */
+
+const DebouncedInput = ({ value, onChange, className, type = "text", ...props }) => {
+  const [localValue, setLocalValue] = useState(value === undefined ? '' : value);
+  useEffect(() => { setLocalValue(value === undefined ? '' : value); }, [value]);
+  const handleChange = (e) => { setLocalValue(e.target.value); };
+  const handleBlur = () => { onChange(localValue); };
+  const handleKeyDown = (e) => { if (e.key === 'Enter') { onChange(localValue); e.target.blur(); } };
+  return <input type={type} className={className} value={localValue} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} {...props} />;
+};
+
+const Card = ({ children, className = "", title, icon: Icon, action }) => (
+    <div className={`bg-white rounded-xl border border-slate-200/60 shadow-sm overflow-hidden ${className}`}>
+        {title && (
+            <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div className="flex items-center gap-2">
+                    {Icon && <Icon className="w-4 h-4 text-indigo-500" />}
+                    <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wide">{title}</h3>
+                </div>
+                {action}
+            </div>
+        )}
+        <div className="p-4">
+            {children}
+        </div>
+    </div>
+);
+
+const ModernInput = ({ label, value, onChange, icon: Icon, suffix, className = "", ...props }) => (
+    <div className={`group relative ${className}`}>
+        {label && <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1.5 ml-1">{label}</label>}
+        <div className="relative flex items-center">
+            {Icon && <Icon className="absolute left-3 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />}
+            <DebouncedInput 
+                value={value} 
+                onChange={onChange}
+                className={`w-full bg-slate-50 border border-slate-200 rounded-lg py-2.5 ${Icon ? 'pl-9' : 'pl-3'} pr-8 text-sm font-semibold text-slate-700 outline-none focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all`}
+                {...props}
+            />
+            {suffix && <span className="absolute right-3 text-xs font-medium text-slate-400 pointer-events-none">{suffix}</span>}
+        </div>
+    </div>
+);
+
+/**
+ * ==========================================================================================
+ * 5. WORKSPACE COMPONENT
+ * ==========================================================================================
+ */
+const Workspace = React.memo(({ 
+  activeS, sheets, material, zoom, setZoom, updateSlopeGeometry, handleUpdateSheetOverride, projectInfo, onAskAI, onCanvasClick, onFinishDrawing, onCancelDrawing, globalSettings
+}) => {
+  const [draggingPointIdx, setDraggingPointIdx] = useState(null);
+  const [selectedSheetIds, setSelectedSheetIds] = useState(new Set());
+  const [editLengthValue, setEditLengthValue] = useState("");
+  const [mouseCoords, setMouseCoords] = useState({ x: 0, y: 0 });
+
+  const svgRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+
+  // Define offsetLimit inside Workspace
+  const offsetLimit = Math.floor((material.effectiveWidth || 1) * 100);
+
+  useEffect(() => { 
+      setSelectedSheetIds(new Set()); 
+      setEditLengthValue("");
+  }, [activeS?.id]);
+
+  const selectedSheets = useMemo(() => {
+      return sheets.filter(s => selectedSheetIds.has(s.id));
+  }, [sheets, selectedSheetIds]);
+
+  useEffect(() => {
+      if (selectedSheets.length === 1) {
+          setEditLengthValue(selectedSheets[0].len.toFixed(3));
+      } else if (selectedSheets.length > 1) {
+          const firstLen = selectedSheets[0].len;
+          const allSame = selectedSheets.every(s => Math.abs(s.len - firstLen) < 0.001);
+          setEditLengthValue(allSame ? firstLen.toFixed(3) : "");
+      }
+  }, [selectedSheetIds, sheets]); 
+
+  useEffect(() => {
+      if (scrollContainerRef.current && activeS && activeS.points && activeS.points.length > 0) {
+          const scale = VIEWBOX_CONFIG.baseScale * zoom;
+          const canvasHeightPx = VIRTUAL_CANVAS_METERS.height * scale;
+          const originX = 60 * zoom; 
+          const originY = canvasHeightPx - (40 * zoom);
+          const centerX = (Math.min(...activeS.points.map(p => originX + (p.x * scale))) + Math.max(...activeS.points.map(p => originX + (p.x * scale)))) / 2;
+          const centerY = (Math.min(...activeS.points.map(p => originY - (p.y * scale))) + Math.max(...activeS.points.map(p => originY - (p.y * scale)))) / 2;
+          const container = scrollContainerRef.current;
+          container.scrollTo({
+              left: centerX - container.clientWidth / 2,
+              top: centerY - container.clientHeight / 2,
+              behavior: 'smooth'
+          });
+      }
+  }, [activeS?.id, zoom]); 
+
+  const scale = VIEWBOX_CONFIG.baseScale * zoom;
+  const canvasWidthPx = VIRTUAL_CANVAS_METERS.width * scale;
+  const canvasHeightPx = VIRTUAL_CANVAS_METERS.height * scale;
+  
+  const originX = 60 * zoom; 
+  const originY = canvasHeightPx - (40 * zoom);
+
+  const toScreenX = (val) => originX + (val * scale);
+  const toScreenY = (val) => originY - (val * scale); 
+  const fromScreenX = (val) => (val - originX) / scale;
+  const fromScreenY = (val) => (originY - val) / scale;
+
+  const isDrawing = activeS?.templateId === 'custom_draw';
+  const points = activeS?.points || [];
+
+  const handleMouseMove = (e) => {
+      if (!svgRef.current) return;
+      const pt = svgRef.current.createSVGPoint();
+      pt.x = e.clientX;
+      pt.y = e.clientY;
+      const svgP = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
+      
+      const rawX = fromScreenX(svgP.x);
+      const rawY = fromScreenY(svgP.y);
+
+      const snap = 0.01;
+      const xMeter = draggingPointIdx !== null || isDrawing ? Math.round(rawX / snap) * snap : rawX;
+      const yMeter = draggingPointIdx !== null || isDrawing ? Math.round(rawY / snap) * snap : rawY;
+      
+      setMouseCoords({ x: xMeter, y: yMeter });
+
+      if (draggingPointIdx === null || !activeS?.points) return;
+      const newPoints = [...activeS.points];
+      newPoints[draggingPointIdx] = { x: xMeter, y: yMeter };
+      updateSlopeGeometry(activeS?.id, { points: newPoints });
+  };
+
+  const handleBackgroundClick = (e) => {
+      if (e.target.tagName === 'svg' || e.target.tagName === 'line' || e.target === scrollContainerRef.current) {
+          if (!activeS || isDrawing) {
+              if (onCanvasClick) onCanvasClick(mouseCoords.x, mouseCoords.y);
+              return;
+          }
+      }
+      setSelectedSheetIds(new Set());
+  };
+
+  const renderGrid = () => {
+      const lines = [];
+      const maxW = VIRTUAL_CANVAS_METERS.width;
+      const maxH = VIRTUAL_CANVAS_METERS.height;
+      for(let i=0; i<=maxW; i++) {
+          const x = toScreenX(i);
+          if (x > canvasWidthPx) break;
+          lines.push(<line key={`v${i}`} x1={x} y1={originY} x2={x} y2={originY - maxH*scale} stroke="#94a3b8" strokeWidth="0.5" opacity="0.4" />);
+          lines.push(<text key={`vl${i}`} x={x} y={originY + 20} textAnchor="middle" fontSize="10" fill="#475569" fontWeight="bold">{i}</text>);
+      }
+      for(let i=0; i<=maxH; i++) {
+          const y = toScreenY(i);
+          if (y < 0) break;
+          lines.push(<line key={`h${i}`} x1={originX} y1={y} x2={originX + maxW*scale} y2={y} stroke="#94a3b8" strokeWidth="0.5" opacity="0.4" />);
+          lines.push(<text key={`hl${i}`} x={originX - 10} y={y} dy="0.3em" textAnchor="end" fontSize="10" fill="#475569" fontWeight="bold">{i}</text>);
+      }
+      return lines;
+  };
+
+  const handleMouseUp = () => setDraggingPointIdx(null);
+
+  const handleLineClick = (idx1, e) => {
+      if (isDrawing || !activeS) return;
+      e.stopPropagation();
+      const p1 = activeS.points[idx1];
+      const p2 = activeS.points[(idx1 + 1) % activeS.points.length];
+      const newPoint = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+      const newPoints = [...activeS.points];
+      newPoints.splice(idx1 + 1, 0, newPoint);
+      updateSlopeGeometry(activeS?.id, { points: newPoints, templateId: 'custom' });
+  };
+
+  const handlePointDblClick = (idx, e) => {
+      if (isDrawing || !activeS) return;
+      e.stopPropagation();
+      if (activeS.points.length <= 3) return; 
+      const newPoints = activeS.points.filter((_, i) => i !== idx);
+      updateSlopeGeometry(activeS?.id, { points: newPoints, templateId: 'custom' });
+  };
+
+  const handleSheetClick = (sheetId, e) => {
+      if (isDrawing) return;
+      e.stopPropagation();
+      setSelectedSheetIds(prev => {
+          const newSet = new Set(e.ctrlKey || e.metaKey ? prev : []);
+          if (newSet.has(sheetId)) {
+              newSet.delete(sheetId);
+          } else {
+              newSet.add(sheetId);
+          }
+          return newSet;
+      });
+  };
+
+  const polyPoints = points.map(p => `${toScreenX(p.x)},${toScreenY(p.y)}`).join(' ');
+
+  const slopeGeomArea = activeS ? (((activeS?.w1 || 0) + (activeS?.w2 || 0)) / 2) * ((activeS?.h || 0) + (activeS?.overhang || 0)) : 0;
+  
+  let perimeter = 0;
+  if (points.length >= 2) {
+      points.forEach((p, i) => {
+          if (isDrawing && i === points.length - 1) return;
+          const pNext = points[(i + 1) % points.length];
+          perimeter += Math.sqrt(Math.pow(pNext.x - p.x, 2) + Math.pow(pNext.y - p.y, 2));
+      });
+  }
+
+  let matAreaFull = 0, matAreaUseful = 0;
+  sheets.forEach(sh => {
+      matAreaFull += (sh.len || 0) * (material.total || 0);
+      matAreaUseful += (sh.len || 0) * (material.effectiveWidth || 0);
+  });
+  const wastePercent = slopeGeomArea > 0 ? ((matAreaFull - slopeGeomArea) / slopeGeomArea) * 100 : 0;
+
+  const updateSelectedSheets = (changes) => {
+      if (!activeS) return;
+      const idsToUpdate = Array.from(selectedSheetIds);
+      handleUpdateSheetOverride(activeS?.id, idsToUpdate, changes);
+  };
+  
+  const onLengthCommit = () => {
+      const sanitizedValue = String(editLengthValue).replace(',', '.');
+      const val = parseFloat(sanitizedValue);
+      if (!isNaN(val) && val > 0) {
+          updateSelectedSheets({ length: val });
+      }
+  };
+
+  const handleLengthChange = (delta) => {
+      const currentVal = parseFloat(String(editLengthValue).replace(',', '.')) || 0;
+      const newVal = Math.max(0.1, currentVal + delta);
+      setEditLengthValue(newVal.toFixed(3));
+      updateSelectedSheets({ length: newVal });
+  };
+
+  const handleOffsetChange = (delta) => {
+      if (!activeS) return;
+      selectedSheets.forEach(s => {
+          const currentOffset = s.bottomOffset || 0;
+          const newOffset = currentOffset + delta;
+          handleUpdateSheetOverride(activeS?.id, [s.id], { offset: newOffset });
+      });
+  };
+
+  const onDeleteSelected = () => {
+      updateSelectedSheets({ deleted: true });
+      setSelectedSheetIds(new Set()); 
+  };
+
+  const onSplitSelected = () => {
+      const val = parseFloat(String(editLengthValue).replace(',', '.'));
+      if (!isNaN(val) && val > 0) {
+          updateSelectedSheets({ length: val / 2 });
+      }
+  };
+
+  const onAlignBottom = () => {
+     updateSelectedSheets({ offset: 0 });
+  };
+
+  const onAlignTop = () => {
+     if (!activeS) return;
+     selectedSheets.forEach(s => {
+         const newOffset = Math.max(0, s.realLen - s.len);
+         handleUpdateSheetOverride(activeS?.id, [s.id], { offset: newOffset });
+     });
+  };
+
+  const navigateSheet = (direction) => {
+      if (selectedSheets.length !== 1) return;
+      const currentSheet = selectedSheets[0];
+      const currentIndex = sheets.findIndex(s => s.id === currentSheet.id);
+      if (currentIndex === -1) return;
+      
+      let nextIndex = direction === 'prev' ? currentIndex - 1 : currentIndex + 1;
+      if (nextIndex >= 0 && nextIndex < sheets.length) {
+          setSelectedSheetIds(new Set([sheets[nextIndex].id]));
+      }
+  };
+
+  if (!activeS || !activeS.points || (activeS.points.length < 3 && !isDrawing)) {
+      return (
+          <div className="flex-1 flex flex-col bg-slate-100 overflow-hidden relative select-none">
+              <div className="flex-1 relative bg-[#cfd3d8] overflow-auto border-b border-slate-400 shadow-inner" onMouseMove={handleMouseMove} onClick={handleBackgroundClick}>
+                  <div className="absolute top-4 left-4 bg-white/90 border border-slate-400 px-3 py-1.5 text-xs font-mono font-bold text-slate-700 shadow-sm z-10 pointer-events-none rounded">
+                      X: {mouseCoords.x.toFixed(2)}м | Y: {mouseCoords.y.toFixed(2)}м
+                  </div>
+                  <svg ref={svgRef} width={canvasWidthPx} height={canvasHeightPx} viewBox={`0 0 ${canvasWidthPx} ${canvasHeightPx}`} style={{ minWidth: '100%', minHeight: '100%' }}>
+                      {renderGrid()}
+                      <line x1={originX} y1={originY} x2={originX + 1000 * scale} y2={originY} stroke="#334155" strokeWidth="1.5" />
+                      <line x1={originX} y1={originY} x2={originX} y2={originY - 1000 * scale} stroke="#334155" strokeWidth="1.5" />
+                      
+                      {isDrawing && points.length > 0 && (
+                          <React.Fragment>
+                              <polyline points={polyPoints} fill="none" stroke="#ef4444" strokeWidth="2.5" pointerEvents="none" strokeDasharray="5,5" />
+                              <line x1={toScreenX(points[points.length-1].x)} y1={toScreenY(points[points.length-1].y)} x2={toScreenX(mouseCoords.x)} y2={toScreenY(mouseCoords.y)} stroke="#ef4444" strokeWidth="2.5" strokeDasharray="5,5" opacity="0.6" pointerEvents="none" />
+                              {points.map((p, i) => (
+                                  <circle key={`pt-empty-${i}`} cx={toScreenX(p.x)} cy={toScreenY(p.y)} r={6} fill="white" stroke="#ef4444" strokeWidth="2" pointerEvents="none" />
+                              ))}
+                          </React.Fragment>
+                      )}
+                  </svg>
+                  
+                  {!isDrawing && (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none bg-white/40 backdrop-blur-[2px]">
+                          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 border border-slate-300 shadow-lg">
+                              <LayoutGrid className="w-6 h-6 text-indigo-500"/>
+                          </div>
+                          <h3 className="text-sm font-bold text-slate-800 mb-2 drop-shadow-md">Холст пуст</h3>
+                          <p className="text-xs text-slate-600 font-bold px-5 py-2 bg-white/90 rounded-full shadow-sm border border-slate-200">Выберите шаблон слева или <b>кликните на сетку</b> для рисования</p>
+                      </div>
+                  )}
+
+                  {isDrawing && (
+                      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-white p-3 rounded-xl shadow-2xl border border-indigo-200 flex items-center gap-4 z-50">
+                          <span className="text-sm font-bold text-slate-700">Режим рисования ({points.length} точек)</span>
+                          {points.length >= 3 && (
+                              <button onClick={onFinishDrawing} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition">
+                                 Завершить фигуру
+                              </button>
+                          )}
+                          <button onClick={onCancelDrawing} className="px-4 py-2 bg-rose-50 text-rose-600 rounded-lg text-xs font-bold hover:bg-rose-100 transition">
+                             Отмена
+                          </button>
+                      </div>
+                  )}
+
+                  <div className="absolute top-4 right-4 ml-auto w-fit flex flex-col gap-1 bg-white border border-slate-300 rounded shadow-sm print:hidden pointer-events-auto">
+                     <button onClick={() => setZoom(z => Math.min(3, z + 0.1))} className="p-1.5 hover:bg-slate-100"><ZoomIn className="w-4 h-4 text-slate-600"/></button>
+                     <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-1.5 hover:bg-slate-100 border-t border-slate-200"><ZoomOut className="w-4 h-4 text-slate-600"/></button>
+                  </div>
+              </div>
+              
+              <div className="bg-white border-t border-slate-300 p-2 text-[10px] font-sans text-slate-800 flex justify-between items-start shrink-0 z-50 relative shadow-[0_-4px_10px_rgba(0,0,0,0.05)] print:hidden">
+                  <div className="flex flex-col gap-0.5 w-1/3 border-r border-slate-200 pr-2">
+                      <div>Заказ №1301 от {new Date().toLocaleDateString('ru-RU')}</div>
+                      <div className="font-bold">Lmax реальная/Lmax стандартная, м: {(globalSettings?.lMax || 0).toFixed(3)} / 8.200</div>
+                  </div>
+                  <div className="flex flex-col gap-0.5 w-1/3 border-r border-slate-200 px-2 text-slate-400 italic">Нет активного ската</div>
+                  <div className="w-1/3 pl-2 flex flex-col justify-end h-full items-end text-slate-400">
+                      <div className="text-xl font-bold tracking-widest opacity-20">RoofPro</div>
+                  </div>
+              </div>
+          </div>
+      );
+  }
+
+  return (
+    <div className="flex-1 flex flex-col bg-white overflow-hidden relative select-none">
+        
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-5 py-2 rounded-full text-[11px] font-bold text-slate-600 shadow-sm border border-slate-200 z-20 flex items-center gap-4 print:hidden pointer-events-none">
+             <span className="flex items-center gap-1.5"><MousePointer2 className="w-3.5 h-3.5 text-indigo-500"/> Drag - двигать</span>
+             <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+             <span className="flex items-center gap-1.5"><Plus className="w-3.5 h-3.5 text-emerald-500"/> Click линия - добавить</span>
+             <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+             <span className="flex items-center gap-1.5"><Trash2 className="w-3.5 h-3.5 text-red-500"/> DblClick точка - удалить</span>
+             <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+             <span className="flex items-center gap-1.5"><MousePointerClick className="w-3.5 h-3.5 text-blue-500"/> Ctrl+Click - выбор неск.</span>
+        </div>
+
+        {/* Floating Data Panel */}
+        <div className="absolute top-4 left-4 flex flex-col gap-2 z-10 pointer-events-none">
+            <div className="bg-white/90 backdrop-blur border border-slate-300 px-3 py-1.5 rounded-lg shadow-sm">
+                <div className="text-xs font-mono font-bold text-slate-700">X: {mouseCoords.x.toFixed(2)}м | Y: {mouseCoords.y.toFixed(2)}м</div>
+            </div>
+            <div className="bg-white/90 backdrop-blur border border-slate-300 p-3 rounded-lg shadow-sm flex flex-col gap-1 min-w-[120px]">
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Данные ската</div>
+                <div className="flex justify-between items-center text-xs font-medium text-slate-600"><span>S:</span> <span className="font-bold text-slate-800">{slopeGeomArea.toFixed(2)} м²</span></div>
+                <div className="flex justify-between items-center text-xs font-medium text-slate-600"><span>P:</span> <span className="font-bold text-slate-800">{perimeter.toFixed(2)} м</span></div>
+            </div>
+        </div>
+
+        <div ref={scrollContainerRef} className="flex-1 relative bg-[#cfd3d8] overflow-auto border-b border-slate-400 shadow-inner" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} onClick={handleBackgroundClick}>
+
+            <svg ref={svgRef} width={canvasWidthPx} height={canvasHeightPx} viewBox={`0 0 ${canvasWidthPx} ${canvasHeightPx}`} style={{ minWidth: '100%', minHeight: '100%' }}>
+                {renderGrid()}
+                <line x1={originX} y1={originY} x2={originX + 1000 * scale} y2={originY} stroke="#334155" strokeWidth="1.5" />
+                <line x1={originX} y1={originY} x2={originX} y2={originY - 1000 * scale} stroke="#334155" strokeWidth="1.5" />
+                
+                {!isDrawing && sheets.map(sh => {
+                    const isSelected = selectedSheetIds.has(sh.id);
+                    const topOfSheetSlopeY = (sh.yBase || 0) + sh.bottomOffset + sh.len;
+                    const yPos = toScreenY(topOfSheetSlopeY); 
+                    const xPos = toScreenX(sh.x);
+                    const width = (material.effective || 1) * scale;
+                    const height = sh.len * scale;
+                    return (
+                        <g key={sh.id} onClick={(e) => handleSheetClick(sh.id, e)} className="transition-all duration-200">
+                            <rect x={xPos} y={yPos} width={width} height={height} 
+                                fill={isSelected ? "rgba(59, 130, 246, 0.4)" : "rgba(59, 130, 246, 0.1)"} 
+                                stroke={sh.isDeadZoneFix ? "#ef4444" : isSelected ? "#2563eb" : "#334155"} 
+                                strokeWidth={isSelected ? 2 : 1} 
+                                style={{ cursor: 'pointer' }} 
+                            />
+                            {height > 20 && (
+                                <text x={xPos + width/2} y={yPos + height/2} textAnchor="middle" dy="0.3em" fontSize="10" fill="#1e293b" fontWeight="bold">{sh.len.toFixed(3)}</text>
+                            )}
+                        </g>
+                )})}
+                
+                {/* Polygon or Polyline for drawing */}
+                {!isDrawing && points.length >= 3 && (
+                    <React.Fragment>
+                        <clipPath id="polyClip"><polygon points={polyPoints} /></clipPath>
+                        <polygon points={polyPoints} fill="none" stroke="#ef4444" strokeWidth="2.5" pointerEvents="none"/>
+                    </React.Fragment>
+                )}
+                {isDrawing && points.length > 0 && (
+                    <React.Fragment>
+                        <polyline points={polyPoints} fill="none" stroke="#2563eb" strokeWidth="2.5" pointerEvents="none" />
+                        <line x1={toScreenX(points[points.length-1].x)} y1={toScreenY(points[points.length-1].y)} x2={toScreenX(mouseCoords.x)} y2={toScreenY(mouseCoords.y)} stroke="#2563eb" strokeWidth="2.5" strokeDasharray="5,5" opacity="0.6" pointerEvents="none" />
+                        {points.map((p, i) => (
+                            <circle 
+                                key={`pt-empty-${i}`} 
+                                cx={toScreenX(p.x)} 
+                                cy={toScreenY(p.y)} 
+                                r={6} 
+                                fill="white" 
+                                stroke={i === 0 ? "#16a34a" : "#2563eb"} 
+                                strokeWidth="2" 
+                                style={{cursor: i === 0 ? 'pointer' : 'default'}}
+                                onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    if(i === 0 && points.length >= 3) onFinishDrawing();
+                                }}
+                            />
+                        ))}
+                    </React.Fragment>
+                )}
+
+                {/* EDGE LABELS (A, B, C, D... with lengths) */}
+                {!isDrawing && points.length >= 3 && points.map((p, i) => {
+                    const pNext = points[(i + 1) % points.length];
+                    const screenMx = toScreenX((p.x + pNext.x) / 2);
+                    const screenMy = toScreenY((p.y + pNext.y) / 2);
+                    
+                    const dx = pNext.x - p.x;
+                    const dy = pNext.y - p.y;
+                    const len = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (len < 0.1) return null;
+
+                    const nx = dy / len;
+                    const ny = -dx / len;
+                    
+                    // Push the text outward slightly more to accommodate the text size
+                    const offsetX = screenMx + nx * 22; 
+                    const offsetY = screenMy - ny * 22; 
+                    const letter = String.fromCharCode(65 + i);
+
+                    return (
+                        <g key={`edge-label-${i}`} style={{ pointerEvents: 'none' }}>
+                            {/* White stroke outline for robust readability against any background */}
+                            <text x={offsetX} y={offsetY} textAnchor="middle" dy="0.3em" fontSize="12" fontWeight="bold" stroke="white" strokeWidth="4" strokeLinejoin="round">
+                                {letter}: {len.toFixed(2)}м
+                            </text>
+                            <text x={offsetX} y={offsetY} textAnchor="middle" dy="0.3em" fontSize="12" fontWeight="bold" fill="#334155">
+                                {letter}: {len.toFixed(2)}м
+                            </text>
+                        </g>
+                    );
+                })}
+
+                {/* MOVE LINES BEFORE POINTS SO POINTS ARE ON TOP */}
+                {!isDrawing && points.length >= 3 && points.map((p, i) => {
+                    const pNext = points[(i + 1) % points.length];
+                    return ( 
+                      <g key={`line-group-${i}`}>
+                        {/* Invisible thicker line for easier clicking */}
+                        <line 
+                          x1={toScreenX(p.x)} y1={toScreenY(p.y)} 
+                          x2={toScreenX(pNext.x)} y2={toScreenY(pNext.y)} 
+                          stroke="transparent" 
+                          strokeWidth="20" 
+                          style={{cursor: 'crosshair'}} 
+                          onClick={(e) => handleLineClick(i, e)}
+                          className="group hover:stroke-indigo-400/30 transition-colors"
+                        >
+                          <title>Нажмите, чтобы добавить точку</title>
+                        </line>
+                        {/* Visible line */}
+                        <line 
+                          x1={toScreenX(p.x)} y1={toScreenY(p.y)} 
+                          x2={toScreenX(pNext.x)} y2={toScreenY(pNext.y)} 
+                          stroke="transparent" 
+                          strokeWidth="2" 
+                          pointerEvents="none"
+                        />
+                      </g>
+                    );
+                })}
+
+                {/* POINTS RENDERED LAST TO BE ON TOP AND CLICKABLE */}
+                {points.map((p, i) => (
+                    <circle key={`pt-${i}`} cx={toScreenX(p.x)} cy={toScreenY(p.y)} r={6} fill="white" stroke="#ef4444" strokeWidth="2" style={{cursor: isDrawing ? 'default' : 'grab', transition: 'r 0.1s'}}
+                            onMouseDown={(e) => { if(!isDrawing) { e.stopPropagation(); setDraggingPointIdx(i); } }} onDoubleClick={(e) => { handlePointDblClick(i, e); }}
+                            onMouseEnter={(e) => e.target.setAttribute('r', 8)} onMouseLeave={(e) => e.target.setAttribute('r', 6)}
+                            pointerEvents={isDrawing ? 'none' : 'auto'}
+                    />
+                ))}
+            </svg>
+
+            {isDrawing && (
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-white p-3 rounded-xl shadow-2xl border border-indigo-200 flex items-center gap-4 z-50">
+                    <span className="text-sm font-bold text-slate-700">Режим рисования ({points.length} точек)</span>
+                    {points.length >= 3 && (
+                        <button onClick={onFinishDrawing} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition flex items-center gap-2">
+                           <CheckCircle className="w-3 h-3"/> Завершить фигуру
+                        </button>
+                    )}
+                    <button onClick={onCancelDrawing} className="px-4 py-2 bg-rose-50 text-rose-600 rounded-lg text-xs font-bold hover:bg-rose-100 transition">
+                       Отмена
+                    </button>
+                </div>
+            )}
+
+            {selectedSheets.length > 0 && !isDrawing && (
+                  <div 
+                    className="fixed z-50 bg-[#e5e7eb] border-2 border-slate-400 rounded shadow-[4px_4px_10px_rgba(0,0,0,0.3)] w-36 flex flex-col font-sans select-none print:hidden" 
+                    style={{ top: '80px', right: '340px' }}
+                    onClick={(e) => e.stopPropagation()} 
+                  >
+                      <div className="bg-slate-300 border-b border-slate-400 px-1 py-0.5 flex justify-between items-center cursor-move h-5">
+                          <span className="text-[9px] text-slate-600 font-bold truncate">
+                              {selectedSheets.length > 1 ? `Выбрано: ${selectedSheets.length}` : 'Изменить...'}
+                          </span>
+                          <button onClick={() => setSelectedSheetIds(new Set())} className="text-slate-500 hover:text-red-600"><X className="w-3 h-3"/></button>
+                      </div>
+                      <div className="p-1 flex flex-col gap-1">
+                          <div className="bg-white border border-slate-400 flex items-center px-0.5 h-6">
+                              <input 
+                                  type="text" 
+                                  value={editLengthValue} 
+                                  onChange={(e) => setEditLengthValue(e.target.value)}
+                                  onKeyDown={(e) => e.key === 'Enter' && onLengthCommit()}
+                                  onBlur={onLengthCommit}
+                                  className="w-full text-xs font-mono font-bold text-center outline-none" 
+                                  placeholder={selectedSheets.length > 1 ? "Разные" : ""}
+                              />
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                              <button onClick={() => handleLengthChange(0.01)} className="bg-slate-100 border border-slate-400 rounded p-0.5 hover:bg-white flex justify-center" title="+1 см к длине"><ArrowUp className="w-3 h-3 text-slate-700"/></button>
+                              <button onClick={() => handleLengthChange(-0.01)} className="bg-slate-100 border border-slate-400 rounded p-0.5 hover:bg-white flex justify-center" title="-1 см от длины"><ArrowDown className="w-3 h-3 text-slate-700"/></button>
+                          </div>
+                          <button onClick={onDeleteSelected} className="bg-red-600 border border-red-800 text-white text-[9px] font-bold py-0.5 rounded shadow-sm hover:bg-red-700">Удалить</button>
+                          <button onClick={onSplitSelected} className="bg-yellow-400 border border-yellow-600 text-black text-[9px] font-bold py-0.5 rounded shadow-sm hover:bg-yellow-500">Поделить</button>
+                          
+                          {/* GEMINI API BUTTON */}
+                          {selectedSheets.length === 1 && (
+                            <button 
+                                onClick={() => {
+                                    const sheet = selectedSheets[0];
+                                    const prompt = `Подскажи, как лучше разрезать кровельный лист длиной ${sheet.len.toFixed(3)} м. Материал: ${material.name}. Запретные зоны для реза: ${material.deadZones.map(z => `${z[0]}-${z[1]} м`).join(', ') || 'нет'}. Дай короткий совет без воды.`;
+                                    onAskAI(prompt);
+                                }}
+                                className="bg-indigo-600 border border-indigo-800 text-white text-[9px] font-bold py-1 rounded shadow-sm hover:bg-indigo-700 flex justify-center items-center gap-1"
+                            >
+                                <Sparkles className="w-3 h-3 text-yellow-300" /> Совет по резке
+                            </button>
+                          )}
+
+                          <div className="grid grid-cols-2 gap-1">
+                               <button onClick={() => handleOffsetChange(0.01)} className="bg-slate-100 border border-slate-400 rounded p-0.5 hover:bg-white flex justify-center" title="Сдвинуть вверх (+1 см)"><ChevronUp className="w-3 h-3 text-slate-700"/></button>
+                               <button onClick={() => handleOffsetChange(-0.01)} className="bg-slate-100 border border-slate-400 rounded p-0.5 hover:bg-white flex justify-center" title="Сдвинуть вниз (-1 см)"><ChevronDown className="w-3 h-3 text-slate-700"/></button>
+                          </div>
+                           <button onClick={() => setSelectedSheetIds(new Set())} className="mt-0.5 bg-white border border-slate-400 text-slate-800 text-[9px] font-bold py-0.5 rounded shadow-sm hover:bg-slate-50">OK</button>
+                      </div>
+                      <div className="absolute top-6 bottom-1 right-0.5 w-1 bg-blue-700 rounded-full opacity-60 pointer-events-none"></div>
+                  </div>
+            )}
+            
+            <div className="sticky top-4 right-4 ml-auto w-fit flex flex-col gap-1 bg-white border border-slate-300 rounded shadow-sm mr-4 mt-4 print:hidden">
+               <button onClick={() => setZoom(z => Math.min(3, z + 0.1))} className="p-1.5 hover:bg-slate-100"><ZoomIn className="w-4 h-4 text-slate-600"/></button>
+               <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-1.5 hover:bg-slate-100 border-t border-slate-200"><ZoomOut className="w-4 h-4 text-slate-600"/></button>
+            </div>
+        </div>
+
+        <div className="bg-white border-t border-slate-300 p-2 text-[10px] font-sans text-slate-800 flex justify-between items-start shrink-0 z-50 relative shadow-[0_-4px_10px_rgba(0,0,0,0.05)] print:hidden">
+            <div className="flex flex-col gap-0.5 w-1/3 border-r border-slate-200 pr-2">
+                <div>Заказ №1301 от {new Date().toLocaleDateString('ru-RU')}</div>
+                <div className="font-bold">Lmax реальная/Lmax стандартная, м: {(globalSettings?.lMax || 0).toFixed(3)} / 8.200</div>
+                <div>Площадь Ската, кв.м: <span className="font-bold">{slopeGeomArea.toFixed(3)}</span></div>
+                <div>Вертикаль смещен листов: 0 м</div>
+                <div>Величина округления: {(globalSettings?.rounding || 0).toFixed(3)} м</div>
+                <div>Карнизный свес (капельник): {activeS?.overhang || 0} м</div>
+            </div>
+            <div className="flex flex-col gap-0.5 w-1/3 border-r border-slate-200 px-2">
+                <div className="font-bold">Скат № {activeS?.id || '-'}/{projectInfo?.totalSlopes || 1}</div>
+                <div>Длина ската Lск, м: {activeS ? ((activeS?.h || 0) + (activeS?.overhang || 0)).toFixed(3) : '-'}</div>
+                <div>Полезная/Полная площадь листов, кв.м: <span className="font-bold">{matAreaUseful.toFixed(3)} / {matAreaFull.toFixed(3)}</span></div>
+                <div>Укладка 'Слева направо' / Горизонт смещен листов: {activeS?.layout?.offset ? (activeS.layout.offset / 100).toFixed(3) : '0.000'} м</div>
+                <div>Учет невыполнимых размеров: {globalSettings?.useDeadZones ? 'Да' : 'Нет'}</div>
+                <div>Процент отходов, %: <span className="font-bold text-red-600">{wastePercent.toFixed(2)}</span></div>
+            </div>
+            <div className="w-1/3 pl-2 flex flex-col justify-end h-full items-end text-slate-400">
+                <div className="text-xl font-bold tracking-widest opacity-20">RoofPro</div>
+            </div>
+        </div>
+    </div>
+  );
+});
+
+// --- MAIN APP COMPONENT ---
+const App = () => {
+  const [slopes, setSlopes] = useState([]);
+  const [activeSlopeId, setActiveSlopeId] = useState(null);
+  const [materialType, setMaterialType] = useState('metal');
+  const [activeProfileId, setActiveProfileId] = useState('alicante_new'); 
+  const [isProfileSelectOpen, setIsProfileSelectOpen] = useState(false); 
+  const [zoom, setZoom] = useState(1.0);
+  const [viewMode, setViewMode] = useState('editor');
+  const [showAI, setShowAI] = useState(false);
+  const [showProject, setShowProject] = useState(true);
+  const [showProjectInfo, setShowProjectInfo] = useState(false);
+  const [presentationMode, setPresentationMode] = useState(false);
+  const [showMaterialSettings, setShowMaterialSettings] = useState(false);
+  const [showVerification, setShowVerification] = useState(false);
+  const [pendingSlopes, setPendingSlopes] = useState([]);
+  const [recognitionMeta, setRecognitionMeta] = useState(null);
+  
+  const [projectInfo, setProjectInfo] = useState({
+      client: 'Иванов И.И.',
+      address: 'г. Москва, ул. Ленина 1',
+      date: new Date().toISOString().split('T')[0],
+      phone: '+7 (999) 000-00-00',
+      totalSlopes: 0
   });
 
-})();
-</script>
+  // Gemini AI State
+  const [aiMessages, setAiMessages] = useState([{ role: 'assistant', text: 'Приветствую! Я ИИ-помощник RoofPro. Могу подсказать по раскладке или материалам.' }]);
+  const [aiInput, setAiInput] = useState("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [proposalText, setProposalText] = useState("");
+  const [isProposalLoading, setIsProposalLoading] = useState(false);
 
+  const chatEndRef = useRef(null);
+  
+  // GLOBAL SETTINGS STATE
+  const [globalSettings, setGlobalSettings] = useState({
+      lMax: 8.500,
+      lMin: 0.500,
+      rounding: 0.050,
+      lockOverlap: 0.150,
+      waveLength: 0.350,
+      useDeadZones: true,
+      customDeadZones: [] 
+  });
+
+  useEffect(() => { if (chatEndRef.current) { chatEndRef.current.scrollIntoView({ behavior: "smooth" }); } }, [aiMessages, showAI]);
+
+  useEffect(() => {
+    const profiles = PROFILES[materialType];
+    if (profiles && profiles.length > 0) {
+      if (activeProfileId === 'alicante_new' && materialType === 'metal') return;
+      setActiveProfileId(profiles[0].id);
+    }
+  }, [materialType]);
+
+  const material = useMemo(() => {
+    const profileData = PROFILES[materialType]?.find(p => p.id === activeProfileId) || PROFILES[materialType]?.[0];
+    if (!profileData) return { name: 'Unknown', effectiveWidth: 1, total: 1 };
+    
+    const deadZones = globalSettings.customDeadZones?.length > 0 
+        ? globalSettings.customDeadZones 
+        : (profileData.deadZones || []);
+
+    return { 
+        ...profileData, 
+        effectiveWidth: profileData.effective, 
+        name: `${MATERIAL_TYPES[materialType].name} ${profileData.name}`, 
+        category: materialType, 
+        deadZones: deadZones 
+    };
+  }, [materialType, activeProfileId, globalSettings.customDeadZones]);
+
+  const activeS = slopes.find(s => s.id === activeSlopeId) || (slopes.length > 0 ? slopes[0] : null);
+  const activeSheets = useMemo(() => (activeS && activeS.templateId !== 'custom_draw') ? MathUtils.calculateSlope(activeS, material, globalSettings) : [], [activeS, material, globalSettings]);
+
+  const offsetLimit = Math.floor((material.effectiveWidth || 1) * 100);
+
+  const handleCanvasClick = (x, y) => {
+      if (!activeSlopeId) {
+          const newId = slopes.length > 0 ? Math.max(...slopes.map(s => s.id)) + 1 : 1;
+          setSlopes([...slopes, { 
+              id: newId, name: `Скат ${newId}`, type: 'custom', templateId: 'custom_draw', 
+              w1: 0, w2: 0, h: 0, h2: 0, points: [{x, y}], offsetLeft: 0, overhang: 0.05, d1: 0, d2: 0, 
+              sheetOverrides: {}, layout: { mode: 'start', offset: 0 } 
+          }]);
+          setActiveSlopeId(newId);
+          setProjectInfo(prev => ({...prev, totalSlopes: prev.totalSlopes + 1}));
+      } else {
+          setSlopes(prev => prev.map(s => {
+              if (s.id !== activeSlopeId || s.templateId !== 'custom_draw') return s;
+              const lastPt = s.points[s.points.length - 1];
+              if (lastPt && Math.abs(lastPt.x - x) < 0.01 && Math.abs(lastPt.y - y) < 0.01) return s;
+              return { ...s, points: [...s.points, {x, y}] };
+          }));
+      }
+  };
+
+  const handleFinishDrawing = () => {
+      setSlopes(prev => prev.map(s => {
+          if (s.id !== activeSlopeId) return s;
+          if (s.points.length < 3) return s; 
+          return { ...s, templateId: 'custom' };
+      }));
+  };
+
+  const handleCancelDrawing = () => {
+      removeSlope(activeSlopeId);
+  };
+
+  const updateSlope = (id, field, value) => {
+    const valStr = String(value).replace(',', '.');
+    const meters = parseFloat(valStr) || 0; 
+    setSlopes(prev => prev.map(s => { 
+        if (s.id !== id) return s; 
+        const next = { ...s, [field]: meters };
+        if (['w1', 'w2', 'h', 'h2'].includes(field)) {
+            if (next.templateId !== 'custom') {
+                next.points = MathUtils.generateTemplatePoints(next.templateId, next.w1, next.w2, next.h);
+            }
+        }
+        return next; 
+    }));
+  };
+
+  const handleUpdateSheetOverride = (slopeId, sheetIds, changes) => {
+      const ids = Array.isArray(sheetIds) ? sheetIds : [sheetIds];
+
+      setSlopes(prev => prev.map(s => {
+          if (s.id !== slopeId) return s;
+          const currentOverrides = { ...(s.sheetOverrides || {}) };
+          
+          ids.forEach(id => {
+               currentOverrides[id] = { ...(currentOverrides[id] || {}), ...changes };
+          });
+          
+          return { ...s, sheetOverrides: currentOverrides };
+      }));
+  };
+
+  const updateSlopeGeometry = (id, newParams) => {
+      setSlopes(prev => prev.map(s => { 
+          if (s.id !== id) return s; 
+          const round3 = (n) => Math.round(n * 1000) / 1000;
+          let derived = {};
+          if (newParams.points) {
+              const pts = newParams.points;
+              const dist = (p1, p2) => Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+              const ys = pts.map(p => p.y);
+              derived.h = round3(Math.max(...ys) - Math.min(...ys));
+              if (s.templateId === 'rhomb') { if (pts.length >= 3) derived.w1 = round3(Math.abs(pts[2].x - pts[0].x)); derived.w2 = 0; } 
+              else if (s.templateId === 'tri' || s.templateId === 'tri_r' || s.templateId === 'tri_l') { if (pts.length >= 2) derived.w1 = round3(dist(pts[0], pts[1])); derived.w2 = 0; } 
+              else { if (pts.length >= 2) derived.w1 = round3(dist(pts[0], pts[1])); if (pts.length >= 4) derived.w2 = round3(dist(pts[2], pts[3])); }
+          }
+          return { ...s, ...newParams, ...derived }; 
+      }));
+  };
+
+  const addSlopeFromTemplate = (template) => {
+    const newId = slopes.length > 0 ? Math.max(...slopes.map(s => s.id)) + 1 : 1;
+    
+    // START DRAWING MODE
+    if (template.id === 'draw') {
+        setSlopes([...slopes, { 
+            id: newId, name: `Скат ${newId}`, type: 'custom', templateId: 'custom_draw', 
+            w1: 0, w2: 0, h: 0, h2: 0, points: [], offsetLeft: 0, overhang: 0.05, d1: 0, d2: 0, 
+            sheetOverrides: {}, layout: { mode: 'start', offset: 0 } 
+        }]);
+        setActiveSlopeId(newId);
+        setProjectInfo(prev => ({...prev, totalSlopes: prev.totalSlopes + 1}));
+        return;
+    }
+    
+    setSelectedTemplate(template);
+    setNewSlopeParams({
+        w1: template.w1 || 0,
+        w2: template.w2 || 0,
+        h: template.h || 0,
+        h2: template.h2 || 0,
+        offsetLeft: template.offsetLeft || 0,
+        overhang: 0.05
+    });
+    setShowTemplateModal(true);
+  };
+
+  const removeSlope = (id) => {
+    const newSlopes = slopes.filter(s => s.id !== id);
+    setSlopes(newSlopes);
+    setProjectInfo(prev => ({...prev, totalSlopes: newSlopes.length}));
+    if (activeSlopeId === id) { 
+        setActiveSlopeId(newSlopes.length > 0 ? newSlopes[0].id : null); 
+    }
+  };
+  
+  const handlePrint = () => {
+     setShowProject(false);
+     setTimeout(() => { window.print(); }, 100);
+  };
+  
+  const updateGlobalSetting = (key, value) => {
+      const valStr = String(value).replace(',', '.');
+      const num = parseFloat(valStr) || 0;
+      setGlobalSettings(prev => ({...prev, [key]: num}));
+  };
+
+  const totals = useMemo(() => {
+    let areaRoof = 0, areaMat = 0;
+    const sheetBom = {}; 
+    const slopesData = [];
+    slopes.forEach(s => {
+      const fullH = s.h + (s.overhang || 0);
+      const slopeGeomArea = ((s.w1 + s.w2)/2) * fullH;
+      areaRoof += slopeGeomArea;
+      const sheets = MathUtils.calculateSlope(s, material, globalSettings); 
+      let slopeMatAreaEffective = 0;
+      let slopeMatAreaTotal = 0;
+      sheets.forEach(sh => {
+        const lenKey = (sh.len || 0).toFixed(3);
+        if (!sheetBom[lenKey]) sheetBom[lenKey] = 0;
+        sheetBom[lenKey]++;
+        slopeMatAreaEffective += (sh.len || 0) * (material.effectiveWidth || 0);
+        slopeMatAreaTotal += (sh.len || 0) * (material.total || 0);
+      });
+      areaMat += slopeMatAreaTotal;
+      const slopeWaste = slopeGeomArea > 0 ? ((slopeMatAreaTotal - slopeGeomArea) / slopeGeomArea) * 100 : 0;
+      slopesData.push({ id: s.id, name: s.name, len: fullH, areaGeom: slopeGeomArea, areaEffective: slopeMatAreaEffective, areaTotal: slopeMatAreaTotal, waste: slopeWaste });
+    });
+    const waste = areaRoof > 0 ? ((areaMat - areaRoof) / areaRoof) * 100 : 0;
+    const totalSheetsCount = Object.values(sheetBom).reduce((a, b) => a + b, 0);
+    const totalLinearMeters = Object.keys(sheetBom).reduce((acc, len) => acc + (parseFloat(len) * sheetBom[len]), 0);
+    return { areaRoof, areaMat, waste, sheetBom, slopesData, totalSheetsCount, totalLinearMeters };
+  }, [slopes, material, globalSettings]);
+
+  const updatePendingSlope = (idx, field, value) => {
+      const valStr = String(value).replace(',', '.');
+      const meters = parseFloat(valStr) || 0;
+      setPendingSlopes(prev => {
+          const newSlopes = [...prev];
+          newSlopes[idx] = { ...newSlopes[idx], [field]: meters };
+          return newSlopes;
+      });
+  };
+
+  const confirmRecognition = () => {
+      const newSlopes = [...slopes];
+      let maxId = slopes.length > 0 ? Math.max(...slopes.map(s => s.id)) : 0;
+      
+      pendingSlopes.forEach(ps => {
+          maxId++;
+          const w1 = ps.w1;
+          const w2 = ps.w2 || 0;
+          const h = ps.h;
+          const points = MathUtils.generateTemplatePoints(ps.templateId, w1, w2, h);
+          
+          newSlopes.push({
+              id: maxId,
+              name: ps.name || `Скат ${maxId}`,
+              type: ps.type,
+              templateId: ps.templateId,
+              w1, w2, h, h2: 0,
+              points,
+              offsetLeft: 0, overhang: 0.05, d1: 0, d2: 0,
+              sheetOverrides: {}, layout: { mode: 'start', offset: 0 }
+          });
+      });
+      
+      setSlopes(newSlopes);
+      setProjectInfo(prev => ({...prev, totalSlopes: newSlopes.length}));
+      if (newSlopes.length > 0 && !activeSlopeId) {
+          setActiveSlopeId(newSlopes[0].id);
+      }
+      setShowVerification(false);
+      setPendingSlopes([]);
+  };
+
+  const handleGenerateDeadZones = ({ start, length, step, max }) => {
+      const zones = [];
+      let currentStart = start / 1000;
+      const lenM = length / 1000;
+      const stepM = step / 1000;
+      const maxM = max / 1000;
+      
+      while (currentStart < maxM) {
+          zones.push([currentStart, currentStart + lenM]);
+          currentStart += stepM;
+      }
+      return zones;
+  };
+
+  const saveMaterialSettings = (zones) => {
+      setGlobalSettings(prev => ({ ...prev, customDeadZones: zones }));
+      setShowMaterialSettings(false);
+  };
+
+  const handleAskAI = (prompt) => {
+      setAiInput(prompt);
+      setShowAI(true);
+  };
+
+  const handleSendAiMessage = async () => {
+    if (!aiInput.trim()) return;
+    
+    const newMessages = [...aiMessages, { role: 'user', text: aiInput }];
+    setAiMessages(newMessages);
+    setAiInput('');
+    setIsAiLoading(true);
+
+    const systemPrompt = `Вы опытный инженер-кровельщик и менеджер по продажам. Помогаете пользователю приложения RoofPro. 
+    Текущий проект: Заказчик ${projectInfo.client}. 
+    Выбранный материал: ${material.name}.
+    Мертвые зоны реза материала: ${material.deadZones.map(z => `${z[0]}-${z[1]} м`).join(', ') || 'нет'}.
+    Отвечайте кратко, профессионально и по делу.`;
+
+    try {
+        const response = await callGemini(newMessages[newMessages.length - 1].text, systemPrompt);
+        setAiMessages([...newMessages, { role: 'assistant', text: response }]);
+    } catch (error) {
+        setAiMessages([...newMessages, { role: 'assistant', text: 'Ошибка соединения с ИИ. Проверьте API ключ или интернет.' }]);
+    } finally {
+        setIsAiLoading(false);
+    }
+  };
+
+  const handleGenerateProposal = async () => {
+    setIsProposalLoading(true);
+    const prompt = `Сгенерируй красивое и убедительное коммерческое предложение для клиента (имя: ${projectInfo.client}).
+    Мы предлагаем кровельный материал: ${material.name}.
+    Площадь кровли по геометрии: ${totals.areaRoof.toFixed(2)} кв.м.
+    Необходимая площадь материала с учетом нахлестов: ${totals.areaMat.toFixed(2)} кв.м.
+    Общее количество листов: ${totals.totalSheetsCount} шт.
+    Процент обрезков (отходов): ${totals.waste.toFixed(2)}%.
+    Постарайся сделать текст продающим, обоснуй выбор материала (надежность, долговечность), упомяни, что расчет сделан профессионально в RoofPro. Добавь призыв к действию в конце. Форматируй текст абзацами.`;
+
+    try {
+        const response = await callGemini(prompt, "Ты лучший в мире менеджер по продажам кровельных систем. Твоя цель - убедить клиента.");
+        setProposalText(response);
+    } catch (error) {
+        setProposalText("Не удалось сгенерировать коммерческое предложение.");
+    } finally {
+        setIsProposalLoading(false);
+    }
+  };
+
+  // Modal State
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [newSlopeParams, setNewSlopeParams] = useState({ w1: 0, w2: 0, h: 0, h2: 0, offsetLeft: 0, overhang: 0.05 });
+
+  const initiateAddSlope = (template) => {
+    if (template.id === 'draw') {
+        addSlopeFromTemplate(template);
+        return;
+    }
+    setSelectedTemplate(template);
+    setNewSlopeParams({
+        w1: template.w1 || 0,
+        w2: template.w2 || 0,
+        h: template.h || 0,
+        h2: template.h2 || 0,
+        offsetLeft: template.offsetLeft || 0,
+        overhang: 0.05
+    });
+    setShowTemplateModal(true);
+  };
+
+  const confirmAddSlope = () => {
+     if (!selectedTemplate) return;
+     
+     const { w1, w2, h, h2, offsetLeft, overhang } = newSlopeParams;
+     const newId = slopes.length > 0 ? Math.max(...slopes.map(s => s.id)) + 1 : 1;
+     
+     const points = MathUtils.generateTemplatePoints(selectedTemplate.id, w1, w2, h, h2, offsetLeft);
+     
+     setSlopes([...slopes, { 
+        id: newId, 
+        name: `Скат ${newId}`, 
+        type: selectedTemplate.type, 
+        templateId: selectedTemplate.id, 
+        w1, w2, h, h2, 
+        points, 
+        offsetLeft, 
+        overhang, 
+        d1: 0, d2: 0, 
+        sheetOverrides: {}, 
+        layout: { mode: 'start', offset: 0 } 
+    }]);
+    
+    setActiveSlopeId(newId);
+    setProjectInfo(prev => ({...prev, totalSlopes: prev.totalSlopes + 1}));
+    
+    setShowTemplateModal(false);
+    setSelectedTemplate(null);
+  };
+
+  if (presentationMode) {
+      return (
+        <div className="absolute inset-0 z-50 bg-[#f8fafc] flex flex-col">
+            <button onClick={() => setPresentationMode(false)} className="absolute top-6 right-6 z-[60] bg-white/90 backdrop-blur px-4 py-2 rounded-xl shadow-lg border border-slate-200 text-slate-700 font-bold hover:bg-red-50 hover:text-red-600 transition flex items-center gap-2"><Minimize className="w-4 h-4"/> Выход</button>
+            <Workspace activeS={activeS} sheets={activeSheets} material={material} zoom={zoom} setZoom={setZoom} projectInfo={projectInfo} updateSlopeGeometry={updateSlopeGeometry} handleUpdateSheetOverride={handleUpdateSheetOverride} onAskAI={handleAskAI} onCanvasClick={handleCanvasClick} onFinishDrawing={handleFinishDrawing} onCancelDrawing={handleCancelDrawing} globalSettings={globalSettings} />
+        </div>
+      );
+  }
+
+  return (
+    <div className="flex h-screen w-full bg-[#f8fafc] text-slate-900 font-sans overflow-hidden relative">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+            body * { visibility: hidden; }
+            #printable-area, #printable-area * { visibility: visible; }
+            #printable-area { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                margin: 0; 
+                padding: 0; 
+                background: white; 
+                z-index: 9999;
+            }
+            button, .no-print, nav, header, aside { display: none !important; }
+        }
+      `}} />
+      
+      {/* LEFT SIDEBAR MODIFICATIONS */}
+      <div className={`flex flex-col z-20 bg-white border-r border-slate-200 shadow-[4px_0_24px_-12px_rgba(0,0,0,0.05)] relative transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${showProject ? 'w-64 translate-x-0 opacity-100' : 'w-0 -translate-x-full opacity-0 overflow-hidden border-none'} print:hidden`}>
+            <div className="h-14 border-b border-slate-100 flex items-center px-4 gap-3 bg-white">
+                <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-md shadow-indigo-500/20"><Calculator className="w-4 h-4" /></div>
+                <div className="flex flex-col">
+                    <span className="font-bold text-base leading-none text-slate-800">RoofPro</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Calculator 3.0</span>
+                </div>
+                <div className="ml-auto flex gap-1">
+                    <button onClick={() => setShowProjectInfo(true)} className="p-2 rounded-lg hover:bg-slate-50 text-slate-400 hover:text-indigo-600 transition" title="Карточка объекта"><FileEdit className="w-4 h-4"/></button>
+                    <button onClick={() => setShowProject(false)} className="p-2 rounded-lg hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition" title="Скрыть панель"><ChevronLeft className="w-4 h-4" /></button>
+                </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-6 bg-slate-50/50">
+               <section>
+                   <div className="flex items-center justify-between mb-3"><label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Шаблоны</label><span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold">{ROOF_TEMPLATES.length}</span></div>
+                   <div className="grid grid-cols-3 gap-2">
+                       {ROOF_TEMPLATES.map(tpl => (
+                           <button 
+                               key={tpl.id} 
+                               onClick={() => initiateAddSlope(tpl)}
+                               className="aspect-square bg-white border border-slate-200 rounded-xl hover:border-indigo-500 hover:shadow-md text-slate-400 hover:text-indigo-600 transition-all flex flex-col items-center justify-center gap-1 group"
+                               title={tpl.name}
+                            >
+                               <div className="w-5 h-5 opacity-60 group-hover:opacity-100 transition-opacity">
+                                   <tpl.icon className="w-full h-full text-current" />
+                               </div>
+                           </button>
+                       ))}
+                   </div>
+               </section>
+               <section>
+                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3 block">Скаты</label>
+                   <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
+                       {slopes.map(slope => (
+                           <div key={slope.id} onClick={() => setActiveSlopeId(slope.id)} className={`group p-2.5 rounded-xl border cursor-pointer transition-all duration-200 flex items-center justify-between ${activeSlopeId === slope.id ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-500/20' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:bg-slate-50'}`}>
+                               <div className="flex items-center gap-3">
+                                   <div className={`w-1.5 h-1.5 rounded-full ${activeSlopeId === slope.id ? 'bg-white' : 'bg-slate-300'}`}></div>
+                                   <span className="text-xs font-bold truncate max-w-[80px]">{slope.name}</span>
+                               </div>
+                               <button onClick={(e) => { e.stopPropagation(); removeSlope(slope.id); }} className={`p-1.5 rounded-lg transition ${activeSlopeId === slope.id ? 'hover:bg-indigo-500 text-indigo-100' : 'hover:bg-red-50 text-slate-300 hover:text-red-500'}`}>
+                                   <Trash2 className="w-3.5 h-3.5" />
+                               </button>
+                           </div>
+                       ))}
+                   </div>
+               </section>
+               <hr className="border-slate-200"/>
+               
+               {slopes.length === 0 ? (
+                   <div className="text-center p-6 text-slate-400 text-xs font-medium bg-white rounded-xl border border-dashed border-slate-300">
+                       Выберите шаблон ската для начала работы
+                   </div>
+               ) : (
+                   <div className="space-y-4">
+                      {activeS && (
+                          <React.Fragment>
+                              <Card title="Геометрия" icon={Ruler}>
+                                  <div className="space-y-3">
+                                      <ModernInput label="Ширина основания (м)" value={activeS.w1} onChange={(val) => updateSlope(activeSlopeId, 'w1', val)} icon={ArrowRight} suffix="м" />
+                                      {activeS.type === 'trapezoid' && (<ModernInput label="Верхнее основание (м)" value={activeS.w2} onChange={(val) => updateSlope(activeSlopeId, 'w2', val)} icon={ArrowRight} suffix="м" />)}
+                                      <div className="grid grid-cols-2 gap-3">
+                                          <ModernInput label={activeS.points?.length > 3 ? "Высота 1 (м)" : "Высота (м)"} value={activeS.h} onChange={(val) => updateSlope(activeSlopeId, 'h', val)} icon={ArrowUp} suffix="м" />
+                                          {activeS.points?.length > 3 && (<ModernInput label="Высота 2 (м)" value={activeS.h2 || 0} onChange={(val) => updateSlope(activeSlopeId, 'h2', val)} icon={ArrowUp} suffix="м" />)}
+                                          <ModernInput label="Свес (м)" value={activeS.overhang || 0} onChange={(val) => updateSlope(activeSlopeId, 'overhang', val)} icon={ArrowDown} suffix="м" min={0.01} step="any" inputMode="decimal" className={`[&_input]:bg-indigo-50 [&_input]:text-indigo-700 [&_input]:border-indigo-100 ${activeS.points?.length > 3 ? "col-span-2" : ""}`}/>
+                                      </div>
+                                  </div>
+                              </Card>
+                              <Card title="Проверка" icon={CheckCircle}>
+                                  <div className="grid grid-cols-2 gap-3">
+                                      <ModernInput label="Диагональ 1" value={activeS.d1 || 0} onChange={(val) => updateSlope(activeSlopeId, 'd1', val)} suffix="м" placeholder="0" />
+                                      <ModernInput label="Диагональ 2" value={activeS.d2 || 0} onChange={(val) => updateSlope(activeSlopeId, 'd2', val)} suffix="м" placeholder="0" />
+                                  </div>
+                              </Card>
+                              <Card title="Раскладка" icon={Grid3X3}>
+                                  <div className="flex bg-slate-100 rounded-lg p-1 mb-3">
+                                      <button onClick={() => updateSlopeGeometry(activeSlopeId, { layout: { ...activeS.layout, mode: 'start' } })} className={`flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all ${(!activeS.layout || activeS.layout.mode === 'start') ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>Слева</button>
+                                      <button onClick={() => updateSlopeGeometry(activeSlopeId, { layout: { ...activeS.layout, mode: 'center' } })} className={`flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all ${activeS.layout?.mode === 'center' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>Центр</button>
+                                      <button onClick={() => updateSlopeGeometry(activeSlopeId, { layout: { ...activeS.layout, mode: 'end' } })} className={`flex-1 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all ${activeS.layout?.mode === 'end' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>Справа</button>
+                                  </div>
+                                  <div className="space-y-2">
+                                      <div className="flex justify-between items-end">
+                                          <label className="text-[10px] font-bold text-slate-400 uppercase">Смещение</label>
+                                          <span className="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">{activeS.layout?.offset || 0} см</span>
+                                      </div>
+                                      <input type="range" min={-offsetLimit} max={offsetLimit} step="1" value={activeS.layout?.offset || 0} onChange={(e) => updateSlopeGeometry(activeSlopeId, { layout: { ...activeS.layout || {}, offset: parseInt(e.target.value) } })} className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
+                                  </div>
+                              </Card>
+                          </React.Fragment>
+                      )}
+                   </div>
+               )}
+            </div>
+      </div>
+      
+      {/* CENTER AREA */}
+      <div className="flex-1 flex flex-col min-w-0 z-10 relative">
+         <div className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-40 transition-all print:hidden">
+            <div className="flex items-center gap-4">
+                {!showProject && (<button onClick={() => setShowProject(true)} className="p-2 rounded-lg bg-white border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition" title="Показать панель"><ChevronRight className="w-4 h-4"/></button>)}
+                <div className="flex items-center bg-slate-100 p-1 rounded-xl">
+                    <button onClick={() => setViewMode('editor')} className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all flex items-center gap-2 ${viewMode === 'editor' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}><LayoutGrid className="w-4 h-4"/> Редактор</button>
+                    <button onClick={() => setViewMode('report')} className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all flex items-center gap-2 ${viewMode === 'report' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}><FileText className="w-4 h-4"/> Смета</button>
+                    <button onClick={() => setViewMode('materials')} className={`px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all flex items-center gap-2 ${viewMode === 'materials' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}><Layers className="w-4 h-4"/> Материал</button>
+                </div>
+            </div>
+            <div className="flex items-center gap-3">
+                <button onClick={() => setShowAI(!showAI)} className="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-bold transition-all flex items-center gap-2"><Sparkles className="w-4 h-4" /> AI Ассистент</button>
+                <button onClick={() => setPresentationMode(!presentationMode)} className={`p-2 rounded-lg transition-all ${presentationMode ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'bg-white border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-slate-50'}`} title="Режим презентации">
+                    {presentationMode ? <Minimize className="w-5 h-5"/> : <Maximize className="w-5 h-5"/>}
+                </button>
+            </div>
+         </div>
+
+         {viewMode === 'editor' ? (
+            <Workspace activeS={activeS} sheets={activeSheets} material={material} zoom={zoom} setZoom={setZoom} projectInfo={projectInfo} updateSlopeGeometry={updateSlopeGeometry} handleUpdateSheetOverride={handleUpdateSheetOverride} onAskAI={handleAskAI} onCanvasClick={handleCanvasClick} onFinishDrawing={handleFinishDrawing} onCancelDrawing={handleCancelDrawing} globalSettings={globalSettings} />
+         ) : viewMode === 'materials' ? (
+             <div className="flex-1 bg-slate-100 p-8 overflow-y-auto flex items-start justify-center">
+                 <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {/* Left Column: Material Selector */}
+                      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                          <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><Layers className="w-5 h-5 text-indigo-600"/> Выбор материала</h2>
+                          <div className="space-y-6">
+                              <div>
+                                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Тип покрытия</label>
+                                  <div className="flex gap-2">
+                                      {Object.values(MATERIAL_TYPES).map(type => (
+                                          <button key={type.id} onClick={() => setMaterialType(type.id)} className={`flex-1 p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-center gap-2 ${materialType === type.id ? 'border-indigo-600 bg-indigo-50 text-indigo-700' : 'border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-300'}`}>
+                                              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm ${materialType === type.id ? 'bg-indigo-200 text-indigo-700' : 'bg-white text-slate-400'}`}><type.icon /></div>
+                                              <span className="text-xs font-bold uppercase">{type.name.split(' ')[0]}</span>
+                                          </button>
+                                      ))}
+                                  </div>
+                              </div>
+                              <div>
+                                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Профиль</label>
+                                  <div className="relative">
+                                      <button onClick={() => setIsProfileSelectOpen(!isProfileSelectOpen)} className="w-full p-3 bg-white border border-slate-300 rounded-lg flex items-center justify-between shadow-sm hover:border-indigo-400 transition-all text-left">
+                                          <span className="text-sm font-medium text-slate-800">{material.name}</span>
+                                          <ChevronDown className="w-4 h-4 text-slate-500" />
+                                      </button>
+                                      {isProfileSelectOpen && (
+                                          <div className="absolute top-full left-0 w-full mt-1 bg-white border border-slate-300 shadow-xl max-h-60 overflow-y-auto custom-scrollbar z-50 rounded-lg">
+                                              {PROFILES[materialType].map(p => (
+                                                  <button key={p.id} onClick={() => { setActiveProfileId(p.id); setIsProfileSelectOpen(false); }} className={`w-full px-4 py-2 text-left text-sm hover:bg-slate-50 ${activeProfileId === p.id ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-700'}`}>
+                                                      {p.name}
+                                                  </button>
+                                              ))}
+                                          </div>
+                                      )}
+                                  </div>
+                              </div>
+                              
+                              {/* Visual Diagram */}
+                              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col items-center">
+                                  <div className="w-full h-16 relative flex items-center justify-center mb-2">
+                                       <svg viewBox="0 0 100 30" className="w-full h-full text-slate-700 fill-none stroke-current stroke-2">
+                                           <path d="M0,20 Q10,5 20,20 T40,20 T60,20 T80,20 T100,20" />
+                                       </svg>
+                                  </div>
+                                  <div className="w-full flex justify-between text-xs text-slate-600 font-medium">
+                                      <span>Полная: {(material.total || 0).toFixed(3)} м</span>
+                                      <span>Полезная: {(material.effectiveWidth || 0).toFixed(3)} м</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      {/* Right Column: Global Settings */}
+                      <div className="space-y-6">
+                          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                              <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><Settings className="w-5 h-5 text-indigo-600"/> Параметры расчета</h2>
+                              <div className="grid grid-cols-2 gap-4 mb-4">
+                                  <ModernInput label="Замок (м)" value={globalSettings.lockOverlap} onChange={(val) => updateGlobalSetting('lockOverlap', val)} />
+                                  <ModernInput label="Волна (м)" value={globalSettings.waveLength} onChange={(val) => updateGlobalSetting('waveLength', val)} />
+                                  <ModernInput label="Lmax (м)" value={globalSettings.lMax} onChange={(val) => updateGlobalSetting('lMax', val)} />
+                                  <ModernInput label="Lmin (м)" value={globalSettings.lMin} onChange={(val) => updateGlobalSetting('lMin', val)} />
+                              </div>
+                              <ModernInput label="Округление (м)" value={globalSettings.rounding} onChange={(val) => updateGlobalSetting('rounding', val)} />
+                          </div>
+
+                          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                               <div className="flex justify-between items-center mb-4">
+                                   <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-orange-500"/> Невыполнимые размеры</h2>
+                                   <div className="flex items-center gap-3">
+                                       <button onClick={() => setShowMaterialSettings(true)} className="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition px-2 py-1 bg-indigo-50 rounded-lg">Настроить</button>
+                                       <div className="flex items-center gap-2">
+                                           <span className="text-xs font-bold text-slate-500">ВКЛ</span>
+                                           <input type="checkbox" checked={globalSettings.useDeadZones} onChange={(e) => setGlobalSettings(prev => ({...prev, useDeadZones: e.target.checked}))} className="w-5 h-5 accent-indigo-600" />
+                                       </div>
+                                   </div>
+                               </div>
+                               <div className="h-40 overflow-y-auto border border-slate-200 rounded-xl bg-slate-50 text-sm">
+                                   <table className="w-full">
+                                       <thead className="bg-slate-100 text-slate-500 text-xs font-bold uppercase sticky top-0"><tr><th className="py-2">От (м)</th><th className="py-2">До (м)</th></tr></thead>
+                                       <tbody className="divide-y divide-slate-200">
+                                           {material.deadZones.map((z, i) => (
+                                               <tr key={i}><td className="text-center py-2 font-mono text-slate-700">{z[0].toFixed(3)}</td><td className="text-center py-2 font-mono text-slate-700">{z[1].toFixed(3)}</td></tr>
+                                           ))}
+                                           {material.deadZones.length === 0 && <tr><td colSpan="2" className="text-center py-4 text-slate-400 italic">Нет запретных зон</td></tr>}
+                                       </tbody>
+                                   </table>
+                               </div>
+                          </div>
+                      </div>
+                 </div>
+             </div>
+         ) : (
+            <div className={`flex-1 bg-slate-200 p-8 overflow-y-auto custom-scrollbar animate-in fade-in duration-300 print:p-0 print:bg-white`}>
+               <div id="printable-area" className="bg-white mx-auto shadow-2xl p-10 relative text-slate-900 print:shadow-none print:w-full print:h-full" style={{ width: '210mm', minHeight: '297mm', fontFamily: 'Arial, sans-serif' }}>
+                  {/* HEADER */}
+                  <div className="flex justify-between items-start mb-8">
+                      <div className="text-xs space-y-1">
+                          <div><span className="font-bold">Поставщик:</span> ХАЙРСТРОЙ Профессионалы в Кровле</div>
+                          <div><span className="font-bold">Заказчик:</span> {projectInfo.client}</div>
+                          <div><span className="font-bold">Адрес:</span> {projectInfo.address}</div>
+                          <div><span className="font-bold">Телефон:</span> {projectInfo.phone}</div>
+                      </div>
+                      <div className="flex flex-col items-end"><div className="flex items-center gap-2 mb-2"><div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white"><Building2 className="w-5 h-5"/></div><div className="text-right"><div className="font-bold text-red-600 text-lg leading-none uppercase">ХАЙР СТРОЙ</div><div className="text-[8px] text-slate-400 uppercase tracking-widest">Профессионалы в кровле</div></div></div></div>
+                  </div>
+                  <div className="text-center mb-8"><h1 className="text-sm font-bold uppercase tracking-widest mb-1">С П Е Ц И Ф И К А Ц И Я</h1></div>
+                  <div className="flex justify-between items-start text-[10px] mb-6"><div className="space-y-1"><div>Заказ №1301 от {new Date(projectInfo.date).toLocaleDateString('ru-RU')}</div><div>КРОВЕЛЬНЫЙ МАТЕРИАЛ: <span className="uppercase">{material.name}</span></div></div><div className="text-right">Тип расчета: "МЕТАЛЛОЧЕРЕПИЦА НА ЗАКАЗ"</div></div>
+                  <div className="grid grid-cols-2 gap-8 text-[10px] mb-6 border-b border-slate-200 pb-6">
+                      <div className="space-y-1">
+                          <div className="flex justify-between"><span>Полезная ширина листа, м:</span> <span className="font-bold">{(material.effectiveWidth || 0).toFixed(3)}</span></div>
+                          <div className="flex justify-between"><span>Полная ширина листа, м:</span> <span className="font-bold">{(material.total || 0).toFixed(3)}</span></div>
+                          <div className="flex justify-between"><span>Длина волны, м:</span> <span className="font-bold">{(globalSettings.waveLength || 0).toFixed(3)}</span></div>
+                          <div className="mt-2 flex justify-between"><span>Максимальная реальная длина листа, м:</span> <span className="font-bold">{(globalSettings.lMax || 0).toFixed(3)}</span></div>
+                          <div className="flex justify-between"><span>Максимальная стандартная длина листа, м:</span> <span className="font-bold">8.200</span></div>
+                      </div>
+                      <div className="space-y-1">
+                          <div className="flex justify-between w-1/2"><span>ПК, м:</span> <span>0</span></div>
+                          <div className="flex justify-between w-1/2"><span>ПЗ, м:</span> <span>{(globalSettings.lockOverlap || 0).toFixed(3)}</span></div>
+                          <div className="flex justify-between w-1/2"><span>К, м:</span> <span>0</span></div>
+                      </div>
+                  </div>
+                  <table className="w-full text-[10px] border-collapse mb-8 border border-slate-300">
+                      <thead><tr className="border-b border-slate-300 bg-slate-50"><th className="py-2 px-2 text-left font-bold border-r border-slate-300">№ Ската</th><th className="py-2 px-2 text-center font-bold border-r border-slate-300">L Ската, м</th><th className="py-2 px-2 text-center font-bold border-r border-slate-300">S Ската, кв.м</th><th className="py-2 px-2 text-center font-bold border-r border-slate-300">Sполезная расчетная, кв.м</th><th className="py-2 px-2 text-center font-bold border-r border-slate-300">Sполная расчетная, кв.м</th><th className="py-2 px-2 text-right font-bold">Отходы, %</th></tr></thead>
+                      <tbody>
+                          {totals.slopesData.map((s, idx) => (<tr key={s.id} className="border-b border-slate-200"><td className="py-2 px-2 border-r border-slate-200">{idx + 1}</td><td className="py-2 px-2 text-center border-r border-slate-200">{(s.len || 0).toFixed(3)}</td><td className="py-2 px-2 text-center border-r border-slate-200">{(s.areaGeom || 0).toFixed(3)}</td><td className="py-2 px-2 text-center border-r border-slate-200">{(s.areaEffective || 0).toFixed(3)}</td><td className="py-2 px-2 text-center border-r border-slate-200">{(s.areaTotal || 0).toFixed(3)}</td><td className="py-2 px-2 text-right">{(s.waste || 0).toFixed(2)}</td></tr>))}
+                          <tr className="font-bold border-t-2 border-slate-800 bg-slate-50"><td className="py-2 px-2 border-r border-slate-300">Всего:</td><td className="py-2 px-2 text-center border-r border-slate-300"></td><td className="py-2 px-2 text-center border-r border-slate-300">{(totals.areaRoof || 0).toFixed(3)}</td><td className="py-2 px-2 text-center border-r border-slate-300">{(totals.areaMat * (material.effectiveWidth/material.total) || 0).toFixed(3)}</td><td className="py-2 px-2 text-center border-r border-slate-300">{(totals.areaMat || 0).toFixed(3)}</td><td className="py-2 px-2 text-right">{(totals.waste || 0).toFixed(2)}</td></tr>
+                      </tbody>
+                  </table>
+                  <div className="flex justify-between items-start mb-6"><div className="text-[10px] space-y-1"><div className="font-bold uppercase mb-2">РАССЧИТАННЫЕ ЛИСТЫ НА ЗАКАЗ:</div>{Object.keys(totals.sheetBom).sort((a,b) => b-a).map((len) => (<div key={len} className="grid grid-cols-[100px_1fr] gap-4"><span>Длина, м: <span className="font-bold">{parseFloat(len).toFixed(3)}</span></span><span>Кол-во, шт.: <span className="font-bold">{totals.sheetBom[len]}</span></span></div>))}<div className="mt-4 font-bold">Погонных метров: {(totals.totalLinearMeters || 0).toFixed(3)}</div></div><button onClick={handlePrint} className="text-[10px] border border-slate-300 px-3 py-1 bg-slate-100 hover:bg-slate-200 transition print:hidden flex items-center gap-1 font-bold rounded-lg shadow-sm"><Printer className="w-3 h-3"/> Печать / PDF</button></div>
+                  
+                  {/* GEMINI PROPOSAL SECTION */}
+                  <div className="mt-8 border-t border-slate-200 pt-6 print:block">
+                      <div className="flex items-center justify-between mb-4 print:hidden">
+                          <h3 className="font-bold text-slate-800 flex items-center gap-2"><Sparkles className="w-4 h-4 text-indigo-500" /> Умное коммерческое предложение</h3>
+                          <button onClick={handleGenerateProposal} disabled={isProposalLoading} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[10px] font-bold transition-all flex items-center gap-2 disabled:opacity-50">
+                              {isProposalLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3 text-yellow-300" />} 
+                              Сгенерировать текст (AI)
+                          </button>
+                      </div>
+                      
+                      {proposalText && (
+                          <div className="bg-indigo-50/50 p-6 rounded-xl border border-indigo-100 text-xs text-slate-700 whitespace-pre-wrap leading-relaxed shadow-inner">
+                              {proposalText}
+                          </div>
+                      )}
+                  </div>
+
+                  <div className="flex justify-between items-end mt-12 pt-10 text-[10px]"><div>Менеджер</div><div className="w-40 border-b border-slate-400"></div><div>Яндиев А. М.</div></div>
+               </div>
+            </div>
+         )}
+      </div>
+
+      {/* NEW TEMPLATE MODAL */}
+      {showTemplateModal && selectedTemplate && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm flex flex-col transform transition-all scale-100 border border-white/20">
+                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/80 rounded-t-2xl">
+                    <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 text-indigo-600">
+                            <selectedTemplate.icon />
+                        </div>
+                        <h3 className="text-sm font-bold text-slate-800">{selectedTemplate.name}</h3>
+                    </div>
+                    <button onClick={() => setShowTemplateModal(false)} className="text-slate-400 hover:text-slate-600"><X className="w-4 h-4"/></button>
+                </div>
+                <div className="p-6 space-y-4">
+                     <ModernInput label="Ширина 1 (Основание)" value={newSlopeParams.w1} onChange={(v) => setNewSlopeParams({...newSlopeParams, w1: parseFloat(v)||0})} suffix="м" autoFocus />
+                     
+                     <ModernInput label="Высота (Длина ската)" value={newSlopeParams.h} onChange={(v) => setNewSlopeParams({...newSlopeParams, h: parseFloat(v)||0})} suffix="м" />
+                     
+                     {(selectedTemplate.type === 'trapezoid' || ['l_shape_bl', 'l_shape_br', 'l_shape_tl', 'l_shape_tr', 't_shape', 'cut_tl', 'cut_tr', 'rect_cut_br'].includes(selectedTemplate.id)) && (
+                        <ModernInput label="Ширина 2 (Верх/Вырез)" value={newSlopeParams.w2} onChange={(v) => setNewSlopeParams({...newSlopeParams, w2: parseFloat(v)||0})} suffix="м" />
+                     )}
+                     
+                     {['l_shape_bl', 'l_shape_br', 'l_shape_tl', 'l_shape_tr', 't_shape', 'house', 'rhomb', 'cut_tl', 'cut_tr', 'rect_cut_br'].includes(selectedTemplate.id) && (
+                        <ModernInput label="Высота 2 (Вырез/Сдвиг)" value={newSlopeParams.h2} onChange={(v) => setNewSlopeParams({...newSlopeParams, h2: parseFloat(v)||0})} suffix="м" />
+                     )}
+
+                     {['paral_l', 'paral_r', 'rhomb'].includes(selectedTemplate.id) && (
+                        <ModernInput label="Сдвиг (Offset)" value={newSlopeParams.offsetLeft} onChange={(v) => setNewSlopeParams({...newSlopeParams, offsetLeft: parseFloat(v)||0})} suffix="м" />
+                     )}
+
+                     <ModernInput label="Карнизный свес" value={newSlopeParams.overhang} onChange={(v) => setNewSlopeParams({...newSlopeParams, overhang: parseFloat(v)||0})} suffix="м" />
+                </div>
+                <div className="p-4 border-t border-slate-100 flex justify-end gap-2 bg-white rounded-b-2xl">
+                    <button onClick={() => setShowTemplateModal(false)} className="px-4 py-2 text-slate-500 hover:bg-slate-100 rounded-lg text-xs font-bold transition">Отмена</button>
+                    <button onClick={confirmAddSlope} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition shadow-md shadow-indigo-200">Добавить скат</button>
+                </div>
+            </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- BOOTSTRAP ---
+const _root = ReactDOM.createRoot(document.getElementById('root'));
+_root.render(<App />);
+
+</script>
 </body>
 </html>
